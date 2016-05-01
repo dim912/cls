@@ -1,0 +1,705 @@
+#Restoring Grub
+
+cfdisk ; #Then check for flags where boot is written notify that partition
+
+cp /boot/grub2/grub.cfg /boot/grub2/grub.cfg_old_20160101
+#append below to /boot/grub2/grub.cfg;
+menuentry "WINDOWS 7"{
+set root='(hd0,msdos1)' 
+chainloader +1
+}
+
+#swith off glidswitch so that laptop does not go suspend when glid is closed
+vi /etc/systemd/logind.conf;
+HandleLidSwitch=ignore
+systemctl restart systemd-logind;
+
+
+#change the value of msdos with the partition where the boot flag is given. as if boot flag is in /dev/sda1 then msdos1 if /dev/sda2 then msdos2.
+
+grub2-mkconfig;
+
+
+#Install/update KVM, libvirt
+
+# check processor support for kvm
+egrep '(vmx|svm)' /proc/cpuinfo
+
+yum -y install qemu-kvm libvirt virt-install bridge-utils
+
+#check whether kvm is up
+lsmod | grep kvm ;
+
+
+# delete if any bridges
+brctl show;
+ifconfig virbr0 down;
+brctl delbr virbr0;
+
+# delete vertual interfaces
+virsh net-destroy default
+virsh net-undefine default
+service libvirtd restart
+ifconfig ;
+ip addr; (virtual interface is not in the list)
+
+
+#start libvirtd(used to manage the kvm)
+systemctl start libvirtd ;
+systemctl enable libvirtd ;
+
+
+# Network managers is a dynamic netowrk control system which tries to keep the netowrks are up.
+# stop netowrkmanager at boot time
+service NetworkManager status;
+
+#list networks managed by NM
+ nmcli dev status
+
+#check netowrk status at boot time(can be listed for different run levels).
+chkconfig 
+chkconfig –levels 35 network on ; (enable networking for run level 3 and 5)
+
+
+# stop network manager now and restart networking service
+# make sure /etc/sysconfig/network-script/ifcfg-x (NM_CONTROLLED=no, ONBOOT=yes)
+
+service NetworkManager status;
+/etc/init.d/NetworkManager stop
+systemctl stop NetworkManager.service ; 
+systemctl disable NetworkManager.service ;
+service NetowrkManager status;
+
+/etc/init.d/network restart
+service network restart
+
+#creating the bridge
+vi /etc/sysconfig/network-scripts/ifcfg-br0
+
+DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=static
+IPADDR=192.168.0.100
+NETMASK=255.255.255.0
+ONBOOT=yes
+
+#modify ethernet interface
+
+cd /etc/sysconfig/network-scripts/ ; 
+#backup etho config file.
+cp ifcfg-enp0s25 ./backup/ifcfg-enp0s25_20160101;
+
+#modify the file keep only below
+#ethernet interface
+DEVICE=enp0s25
+HWADDR=5c:ff:35:06:d8:7f
+ONBOOT=yes
+TYPE=Ethernet
+BRIDGE=br0
+NM_CONTROLLED=no
+
+#create file : ifcfg-br0
+
+DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=static
+IPADDR=192.168.1.100
+NETMASK=255.255.255.0
+ONBOOT=yes
+
+/etc/init.d/network restart (if /etc/../network-scipts folder contain dhcp wireless networks, it will give an error(since wireless network can not be up, while NetworkManager is stoped). But no issue to ethernet, and bridge)
+service network restart
+brctl show;
+ifconfig;
+
+
+#creating guest vm;
+#copy the iso of OS to /var location
+
+nohup virt-install \
+ -n appserver1 \
+ --description "App_Server_1" \
+ --os-type=Linux \
+ --ram=1024 \
+ --vcpus=1 \
+ --disk path=/var/lib/libvirt/images/appserver1.img,bus=virtio,size=20 \
+ --cdrom /var/CentOS-6.7-x86_64-LiveCD.iso \
+ --network bridge:br0 \
+ --serial pty \
+ --debug &
+
+
+#list all VMs
+virsh list;
+
+#destroy VM
+virsh destroy appserver1
+
+#shutdown VM
+virsh shutdown appserver1
+
+
+#install centos on VM. create weblogic/weblogic user at the installation process
+
+
+#check whether the vm is connected to br0
+brctl show;
+
+
+#login to vm over root account
+
+cd /etc/sysconfig/network-scripts;
+ifconfig ; => note down the mac address of eth0
+create file ifcfg-eth0 with below value.
+
+DEVICE=eth0
+HWADDR=52:54:00:41:59:F0
+BOOTPROTO=static
+IPADDR=192.168.1.101
+NETMASK=255.255.255.0
+ONBOOT=yes	
+NM_CONTROLLED=no
+
+service network restart;
+
+#ping from either sides are check the connectivity
+
+#open vm on screen(gui) mode
+virt-viewer appserver1;
+
+#start VM after reboot of host
+virsh start appserver1
+
+#set vm to auto start
+virsh autostart appserver1;
+#set libvirted to start at host startup
+chkconfig libvirtd on;
+
+
+#go to guest => start network service on startup
+chkconfig network on ;
+#go to guest => enable ssh on gust 
+service sshd start;
+#enable ssh at server startup for all run levels
+chkconfig sshd on;
+#reboot a vm
+virsh reboot appserver1
+
+
+
+#install java on vm
+login to vm over putty as root
+copy jdk-8u60-linux-x64.rpm to vm.
+rpm -ivh jdk-8u60-linux-x64.rpm ;
+
+#changing hostname of vm
+cd /etc/sysconfig;
+vi network; #edit hostname
+service network restart;
+shutdown -r 0;
+
+#install weblogic
+
+#add delete user
+adduse weblogic;
+passwd weblogic;
+deluser weblogic;
+
+#install weblogic
+su - root;
+mkdir /apps;
+chown weblogic:weblogic /apps;
+su - weblogic;
+cd /apps;
+mkdir wlsapp;
+#copy wls1213_dev_update3.zip to home directory;
+unzip wls1213_dev_update3.zip;
+ mv wls12130 /apps/wlsapp;
+cd /apps/wlsapp;
+alternatives --display java ; (get jdk location and use below)
+export JAVA_HOME=/usr/java/jdk1.8.0_60;
+export MW_HOME=/apps/wlsapp/wls12130;
+cd $MW_HOME;
+./configure.sh;
+
+#create domain
+
+. $MW_HOME/wlserver/server/bin/setWLSEnv.sh
+
+#modifying the host file;
+su - root;
+vi /etc/hosts; 
+#modify local host entry(chaneg the server name appropriatly(Ex:appserver1))
+
+mkdir /apps/wlsapp/user_domains;
+cd /apps/wlsapp/user_domains;
+java $JAVA_OPTIONS -Xmx1024m -XX:MaxPermSize=256m weblogic.Server;
+
+
+#enter username / passowrd(weblogic123$) to create domain
+
+#disable iptables of appserver1 so that others can access port 7001(admin server console)
+
+#check whether kernal level module(lsmod) iptables are running
+rpm -q iptables
+lsmod | grep ip_tables;
+#check rules
+iptables -L;
+
+service iptables start;
+#enable iptables if dissabled.
+system-config-securitylevel;
+#restart iptables
+crestart;
+
+#check ip table entries
+iptables -L -v -n --line-numbers;
+
+#backup ip tables
+iptables-save > /etc/sysconfig/backup/iptables_20160103
+#kernal level iptable table is /etc/sysconfig/iptables
+
+#insert a rule in iptables
+[root@appserver1 backup]# iptables -I INPUT 5 -p tcp -s 192.168.1.110 --dport 7001 -j ACCEPT -m comment --comment weblogicAdminServer
+
+#save iptable values
+/sbin/service iptables save 
+
+#delete an entry in iptable
+iptables -D INPUT -p tcp -s 192.168.1.110 --dport 7001 -j ACCEPT;
+
+
+#close appserver1 to appserver2
+virsh shutdown appserver1;
+
+#clone appserver1 to appserver2
+virt-clone --original appserver1 --name appserver2 --auto-clone;
+#start new vm from host matchine and edit config files
+virsh start appserver2;
+in appserver2 =>
+ifconfig => get the mac
+edit /etc/sysconfig/network-script/ifcfg-eth0 appropriatly(file name, ip, mac)
+vi /etc/sysconfig/network; => modify hostname to appserver2
+vi /etc/hosts => modify hosts file(change hostname to appserver2)
+service network restart;
+shutdown -r 0; #to affect the hostname change
+
+virt-clone --original appserver1 --name webserver1 --auto-clone;
+virt-clone --original appserver1 --name webserver2 --auto-clone;
+
+#do, hostname(network), ifconfig(ifcfg-eth0), hosts(hosts file) configurations
+#to change hostname temparally 
+hostname webserver1;
+hostname webserver2;
+service netwrok restart;
+
+#do below in host to set MVs autostart
+ virsh autostart appserver1;
+ virsh autostart appserver2;
+ virsh autostart webserver1;
+ virsh autostart webserver2;
+
+#chaneg runlevel of vmhost
+systemctl set-default multi-user.target; #3
+systemctl set-default graphical.target; #5
+
+#.......weblogic server installatin.................#
+
+1) login to appserver1 over weblogic user
+2) create folder /apps/wlsapp 
+3) copy "wls1213_dev_update3.zip" to the direcotry and unzip.
+4) follow "/apps/wlsapp/wls12130/README.txt" docuemnt
+		  export JAVA_HOME=/usr/bin/java
+		  export MW_HOME=/apps/wlsapp/wls12130
+		   ./configure.sh
+		   
+5) Creating a domain => follow same read.me file	
+		$MW_HOME/wlserver/server/bin/setWLSEnv.sh
+		create /apps/wlsapp/user_domains colder and cd to it.
+		run     $ $JAVA_HOME/bin/java $JAVA_OPTIONS -Xmx1024m -XX:MaxPermSize=256m weblogic.
+		
+#..........weblogic node manager.....................#
+
+1) to start, shutdown, restart admin server and managed server instances remotly.(optional)
+2) not bounded to any weblogic server domain, but to the computer.
+3) one node manager can be used to managed servers in different domains, but in same matchine.
+4) in every matchine where servers(admin or managed) node manager shoud run.
+5) there are two versions as java based and script based.
+6) node manager configurations are at => /apps/wlsapp/user_domains/onePAdoamin/nodemanager/nodemanager.domain
+7) perperty file is created at t "NodeManagerHome" directory if it is defined. otherwise in current directory.
+8) at startup property file is searched by node manager. if not exist create it.property file can not be found until the server starts.
+9) properties can be found at : https://docs.oracle.com/cd/E23943_01/web.1111/e13740/java_nodemgr.htm#NODEM180
+
+configurations
+--------------
+1) use an script to start node manager => example to mount a disk before server startup
+2) execute an script after server shuteown => unmount a disk after server shutdown
+
+scripts should be kept at DOMAIN_HOME/bin/service_migration.
+to use startup scripts => In the nodemanager.properties file, set the StartScriptEnabled property to true.
+shutdown scripts => In the nodemanager.properties file, set the StopScriptEnabled property to true. set StopScriptName the script name.
+
+
+#SSL with java based node manager##
+
+1) Adminservers / manage servers communicate to node manager over SSL.
+
+
+2) If a domain destribute in few computers
+		a. node manager should have been configured on each.(WLST scripting tool can be copied node manager from one mathine to other)
+		
+
+Add node manager as a linux service
+-------------------------------------
+=>add to inetd.
+=> add to xinitd. 
+
+ensure NodeManagerHome  is denied.
+host.deny and host.allow configrations should be OK.
+
+Ex:
+
+# default: off
+# description:nodemanager as a service
+service nodemgrsvc
+{
+   type            = UNLISTED
+   disable         = no
+   socket_type     = stream
+   protocol        = tcp
+   wait            = yes
+   user            = <username>
+   port            = 5556
+   flags           = NOLIBWRAP
+   log_on_success += DURATION HOST USERID
+   server          = <path-to-java>/java
+   env             = CLASSPATH=<cp> LD_LIBRARY_PATH=<ldpath>
+   server_args     = -client -DNodeManagerHome=<NMHome> <java options> 
+   <nodemanager options> weblogic.NodeManager -v
+}
+
+##node manager clients##
+1) over adminconsole
+2) wlst command / script => 
+
+Node manager vs Admin server
+----------------------------
+1) Admin server may be monitered by node manager
+2) Admin server may be a node manager client(when start stop servers from admin console => I access node manger through admin server)
+3) When node manager start up a managed server, node manager contacts admin server to get latest configuraiton updates about managed server.
+4) node manager can restart managed server even when admin server is down(if manages server MSI-managed server independence is enabeld)
+5) nodemanager can not start managed srver for the first time.(since Admin server must be avilable to obtain configurations)
+
+
+6) If a Admin/managed server started by node manager fails => node manaegr auto start it.(if not started using node manager, it can not be started once failed)
+(max tries can be configured in RestartMax in startup.properties file)
+7) even node manager restarted, it keep the memory saved to get to know the controlled servers later.
+
+managed serer independence => ability to staart a managed server without admin server up. managed server get the configurations from its local config cash.
+
+### Node Manager And Servers###
+===============================
+
+#Domain Based Node Manager - (Not needed this if domain based node manager is configured)#
+
+export JAVA_HOME=/usr/bin/java;
+export MW_HOME=/apps/wlsapp/wls12130;
+nohup ./apps/wlsapp/user_domains/bin/startNodeManager.sh &
+
+
+
+#starting weblogic as a linux service( node manager per host , not for domain)
+----------------------------------------------------------------------------------
+
+https://docs.oracle.com/middleware/1213/wls/NODEM/java_nodemgr.htm#BABEHGJA
+
+login as root to appserver1;
+
+su -root;
+
+cd /etc/init.d ;
+vi wls12_NodeManagerSrevice; 
+
+#past below startup script ( modify BEGIN CUSTOM ENV seciton)
+
+#!/bin/sh
+#
+# chkconfig:   345 85 15
+# description: global (per host) Oracle Weblogic Node Manager service init script
+ 
+### BEGIN INIT INFO
+# Provides: jjjnm 
+# Required-Start: $network $local_fs
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# Default-Start: 3 4 5
+# Default-Stop: 0 1 2 6
+# Short-Description: per host Oracle Weblogic Node Manager service
+# Description: Starts and stops per host Oracle Weblogic Node Manager
+### END INIT INFO
+ 
+. /etc/rc.d/init.d/functions
+ 
+#### BEGIN CUSTOM ENV
+MW_HOME=/apps/wlsapp/wls12130
+JAVA_HOME=/usr/bin/java
+LD_LIBRARY_PATH=/apps/wlsapp/wls12130/wlserver/server/native/linux/x86_64:/usr/lib:/lib:/usr/X11R6/lib
+#### END CUSTOM ENV
+
+ 
+PROGRAM_START="$MW_HOME/wlserver/server/bin/startNodeManager.sh" #per host nodemanager
+#PROGRAM_START="/apps/wlsapp/user_domains/bin/startNodeManager.sh" #per domain nodemanager
+NODEMANAGER_DIR="$MW_HOME/wlserver/../oracle_common/common/nodemanager" #per host nodemanager
+#NODEMANAGER_DIR="/apps/wlsapp/user_domains/nodemanager" -- per domain node manager
+
+
+NODEMANAGER_LOCKFILE="$NODEMANAGER_DIR/nodemanager.log.lck"
+OUT_FILE="$NODEMANAGER_DIR/nodemanager.out"
+PROCESS_STRING="^.*\-Dweblogic.RootDirectory=$NODEMANAGER_DIR.*weblogic.NodeManager.*"
+ 
+SERVICE_NAME=`/bin/basename $0`
+LOCKFILE="/var/lock/subsys/$SERVICE_NAME"
+ 
+RETVAL=0
+ 
+start() {
+        OLDPID=`ps -e -o pid,command:1000 | grep "$PROCESS_STRING" | grep -v " grep " | awk '{print $1}'`
+        if [ ! -z "$OLDPID" ]; then
+            echo "$SERVICE_NAME is already running (pid $OLDPID) !"
+            echo
+            exit
+        fi
+        
+        if [ ! -e "$NODEMANAGER_DIR" ]; then
+            echo "$NODEMANAGER_DIR does not exist. The per host Node Manager is not configured correctly."
+            echo "Please follow steps in Pre-Condition section before using this script."
+            echo
+            exit
+        fi
+        
+        echo -n $"Starting $SERVICE_NAME ... "
+        echo "`date` Starting $SERVICE_NAME ... " > $OUT_FILE 2>&1 
+        export MW_HOME
+export JAVA_HOME
+export LD_LIBRARY_PATH
+  $PROGRAM_START >> $OUT_FILE 2>&1  &
+ 
+        RETVAL=$?
+        if [ $RETVAL -eq 0 ] ; then
+          wait_for "socket listener started on port"
+        else
+          echo "FAILED: $RETVAL. Please check $OUT_FILE for more information."
+        fi
+        echo
+}
+ 
+wait_for() {
+    res=$(cat "$OUT_FILE" | fgrep -c "$1")
+    count=60
+    while [[ ! $res -gt 0 ]] && [[ $count -gt 0 ]]
+    do
+        sleep 1
+        count=$(($count - 1))
+        res=$(cat "$OUT_FILE" | fgrep -c "$1")
+    done
+    res=$(cat "$OUT_FILE" | fgrep -c "$1")
+    if [ ! $res -gt 0 ]; then
+        echo "FAILED or took too long time to start. Please check $OUT_FILE for more information."
+    else
+        echo "OK"
+        touch $LOCKFILE
+    fi
+}
+ 
+stop() {
+        echo -n $"Stopping $SERVICE_NAME ... "
+        OLDPID=`ps -e -o pid,command:1000 | grep "$PROCESS_STRING" | grep -v " grep " | awk '{print $1}'`
+        if [ "$OLDPID" != "" ]; then
+            echo -n "(pid $OLDPID) "
+            /bin/kill -TERM $OLDPID
+ 
+            RETVAL=$?
+            echo "OK"
+            /bin/rm -f $NODEMANAGER_LOCKFILE
+            [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
+        else
+            /bin/echo "$SERVICE_NAME is stopped"
+        fi
+        echo
+}
+ 
+restart() {
+        stop
+        sleep 10
+        start
+}
+ 
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart|force-reload|reload)
+        restart
+        ;;
+  condrestart|try-restart)
+        [ -f $LOCKFILE ] && restart
+        ;;
+  status)
+        OLDPID=`ps -e -o pid,command:1000 | grep "$PROCESS_STRING" |grep -v " grep " | awk '{print $1}'`
+        if [ "$OLDPID" != "" ]; then
+            /bin/echo "$SERVICE_NAME is running (pid: $OLDPID)"
+        else
+            /bin/echo "$SERVICE_NAME is stopped"
+        fi
+        echo
+        RETVAL=$?
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+        exit 1
+esac
+ 
+exit $RETVAL
+
+#setting script as executable
+chmod +x wls12_NodeManagerSrevice;
+
+vi /apps/wlsapp/wls12130/oracle_common/common/nodemanager/nodemanager.domains;
+mydomain=/apps/wlsapp/user_domains
+
+vi /apps/wlsapp/wls12130/oracle_common/common/nodemanager/nodemanager.properties;
+DomainsFile=/apps/wlsapp/wls12130/oracle_common/common/nodemanager/nodemanager.domains
+LogLimit=0
+PropertiesVersion=12.1.3
+AuthenticationEnabled=false
+NodeManagerHome=/apps/wlsapp/wls12130/oracle_common/common/nodemanager
+JavaHome=/usr/java/jdk1.8.0_60
+LogLevel=FINEST
+DomainsFileEnabled=true
+StartScriptName=startWebLogic.sh
+ListenAddress=localhost
+NativeVersionEnabled=true
+ListenPort=5556
+LogToStderr=true
+SecureListener=false
+LogCount=1
+StopScriptEnabled=false
+QuitEnabled=false
+LogAppend=true
+StateCheckInterval=500
+CrashRecoveryEnabled=false
+StartScriptEnabled=true
+LogFile=/apps/wlsapp/wls12130/oracle_common/common/nodemanager/nodemanager.log
+LogFormatter=weblogic.nodemanager.server.LogFormatter
+ListenBacklog=50
+
+cd /etc/init.d;
+#add the script as a  init.d demon. - then node manager will be started at system start up.
+sudo /sbin/chkconfig --add wls12_NodeManagerSrevice;	
+
+#remove script from inti.d demon.(if required) 
+sudo /sbin/chkconfig --del wls12_NodeManagerSrevice;
+
+#starting node manager service
+sudo /sbin/service wls12_NodeManagerSrevice start;
+
+#Starting Adminserver over node manager( Then if the admin server is down it will be automatically up by nodemanager)
+
+export JAVA_HOME=/usr/bin/java;
+export MW_HOME=/apps/wlsapp/wls12130;
+
+#connect to the wlst of domain
+. /apps/wlsapp/user_domains/bin/setDomainEnv.sh;
+#start wlst
+java weblogic.WLST;
+#connect to node manager
+nmConnect('weblogic', 'weblogic123$', '192.168.1.101', '5556', 'mydomain', '/apps/wlsapp/user_domains' , 'plain');
+#startAdmin Server
+nmStart('myserver') ;
+#connect to AdminServer 
+nmStart('appserver1_MS1') ;
+nmstart('appserver2_MS2);
+
+====================================================================================
+REMOTE SERVER CONFIGURATION TO USE DOMAIN OF appserver1 / ADMIN SERVER ON appserver1
+====================================================================================
+install weblogic in appserver2.(follow procedure of appserver1)
+
+#creating the mirror domain in remote serer appserver2 where Manage server runs#
+-------------------------------------------------------------------------------------
+export JAVA_HOME=/usr/bin/java;
+export MW_HOME=/apps/wlsapp/wls12130;
+source /apps/wlsapp/wls12130/wlserver/server/bin/setWLSEnv.sh	;
+ ./wls12130/wlserver/common/bin/pack.sh  -managed=true -domain=/apps/wlsapp/user_domains/ -template=managedServerTemplate.jar -template_name="managedServerTemplate"
+ 
+go to appserver2(where manage server runs and copy above generated .jar file to working pwd)
+--------------------------------------------
+#execute below to populate the domain in appserver2 where manage server runs.
+sh /apps/wlsapp/wls12130/oracle_common/common/bin/unpack.sh -domain=/apps/wlsapp/user_domains -template=managedServerTemplate.jar -log=log_file -log_priority=debug
+#modify /apps/wlsapp/wls12130/oracle_common/common/bin/unpack.sh , if does not work and rerun above
+#above process may take 10-15 mins.
+
+
+run below from appserver2(192.168.1.102) - where remote manage server to be run
+-----------------------------------------
+mkdir /apps/wlsapp/user_domains ;
+mkdir /apps/wlsapp/nodemanager_home;
+
+export JAVA_HOME=/usr/bin/java;
+export MW_HOME=/apps/wlsapp/wls12130;
+source /apps/wlsapp/wls12130/wlserver/server/bin/setWLSEnv.sh	;
+
+start wlst of appserver2
+--------------------------
+java weblogic.WLST;
+#connect to the admin server on 192.168.1.101 from 192.168.1.102(where managed server willl be installed)
+connect('weblogic','weblogic123$','t3://192.168.1.101:7001');
+
+#enroll appserver2 with domain directory at appserver1(192.168.1.101)
+#this will copy required files from admin server of appserver1 , to the appserver2 
+nmEnroll('/apps/wlsapp/user_domains','/apps/wlsapp/wls12130/oracle_common/common/nodemanager')
+
+sudo /sbin/service wls12_NodeManagerSrevice start;
+
+#in weblogic admin console(domain should have been pre created)
+	1) create matchne and configure node manager in each machine(in above case 'plain' as type)
+	2) disable ip tables in remote machine for testing ( check the status of node manager from weblogic console)
+		service iptables stop;
+	3) if works fine apply the appropriate rule and enable ip tbales back.
+
+
+starting manage server on appserver2 (from appserver2)
+./apps/wlsapp/user_domains/bin/startManagedWebLogic.sh appserver2_ms1 http://192.168.1.101:7001
+
+starting manage server on appserver2 (via admin console)
+in appserver2.
+
+/apps/wlsapp/user_domains/init-info/startscript.xml => set ADMIN_URL to t3://appserver1:7001
+add below two entry in /etc/hosts file of appserver1 and appserver2
+192.168.1.101    appserver1
+192.168.1.102    appserver2
+service network restart; # in both serverss
+connect to admin console and start managed server on appserver2.
+
+helpful guide for above steps
+https://oracle-base.com/articles/12c/weblogic-12c-clustered-domains-1212
+
+#Creating weblogic cluster#
+=============================
+In admin console
+=> create the cluster and add manage servers to it. (multi cast address :  port as 239.192.1.1: 7010)
+(without a router multicst does not work to the localhost )
+
+
+
+
+
+ 
+
+	
+
+
