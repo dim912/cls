@@ -1,4 +1,4 @@
-#Restoring Grub
+#Restoring Grub After installing centOS7 (dual boot with windows)
 
 cfdisk ; #Then check for flags where boot is written notify that partition
 
