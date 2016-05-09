@@ -1,0 +1,10 @@
+Git
+--
+
+git init ; 
+git clone https://dim912@bitbucket.org/clsTeam/enterprise.git
+git config --global user.name dim912
+git config --global user.email dim912@gmail.com
+git commit InstallationInfo_20160116;
+git add links.txt
+git push
