@@ -8,3 +8,7 @@ git config --global user.email dim912@gmail.com
 git commit InstallationInfo_20160116;
 git add links.txt
 git push
+
+
+list all the files tracked by Git
+git ls-tree -r master --name-only

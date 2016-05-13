@@ -1,0 +1,57 @@
+Increasing Swap memroy size
+---------------------------
+
+dd if=/dev/zero of=/swap_file bs=1G count=4
+chmod 600 /swap_file
+mkswap /swap_file
+swapon /swap_file
+  
+#edit /etc/fstab file, add below line
+/swap_file  swap  swap  defaults  0 0
+
+#if want to remove swap memory file  
+swapoff /swap_file
+
+
+#Sharing internet of wireless port of windows over the computers in LAN
+------------------------------------------------------------------------
+
+=> open network and sharing center => adapater settings 
+=> right click on adapter settings(select properties) => share tab (tick the share option, select the network as LAN)
+
+=> Changing the default sharing IPs in windows
+============================================
+log on to the computer with the administrator account.
+After logging on, press the Windows + R keys simultaneously to initialize the Run command box.
+In the available field of the opened box, type the REGEDIT command and hit Enter key.
+On the displayed User Account Control confirmation box, click the Yes button to provide your consent to continue.
+On the opened Registry Editor window, from the left pane, go to HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\SharedAccess\Parameters.
+Once the Parameters container is selected from the left pane, in the right pane, double-click the ScopeAddress and StandaloneDHCPAddress individually.
+On the opened Edit String box, modify the IP address range of your choice in the Value data field.
+Once done, click OK to close the box.
+Finally close the Registry Editor window.
+Restart the computer in order to allow the changes to take effect.
+
+#changing default gateway on linux(vmServer)
+-------------------------------------------
+ip route add default via 192.168.1.110
+ip route del default via 10.0.0.1 
+
+route -n
+
+
+/etc/sysconfig/network-scripts
+vi ifcfg-br0
+DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=static
+IPADDR=192.168.1.100
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.110
+ONBOOT=yes
+
+service network restart
+ifconfig
+
+
+
