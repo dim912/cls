@@ -13,4 +13,6 @@ git push
 list all the files tracked by Git
 git ls-tree -r master --name-only
 
+Maven installing a dependancy in local repo by hand
+
 mvn install:install-file -Dfile={Path/to/your/ojdbc.jar} -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.4 -Dpackaging=jar
