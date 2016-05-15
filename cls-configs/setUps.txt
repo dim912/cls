@@ -15,10 +15,20 @@ git ls-tree -r master --name-only
 
 
 git remove locally deleted files from remote repo also
+
+Method 1
+---------
+delte unwanted fiels and folders
 git add -u
 git commit -m 'xxxx''
 git push origin master
 
+Method 2
+----------
+delete unwanted files and folders using
+git rm <> 
+git commit -m 'removed unwanted files'
+git push
 
 git change url
 git remote set-url origin https://dim912@bitbucket.org/clsTeam/cls.git
