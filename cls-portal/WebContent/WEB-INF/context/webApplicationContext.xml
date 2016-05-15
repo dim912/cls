@@ -20,7 +20,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	<!-- Configure JDBC Connection -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@192.168.1.100:1522:orcl" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:orcl" />
 		<property name="username" value="appdbuser" />
 		<property name="password" value="oracle" />
 	</bean>
@@ -39,7 +39,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>com.dim.cls.model.AbstractPerson</value> <!-- Entity classes -->
+				<value>com.dim.cls.model.abstracts.AbstractPerson</value> <!-- Entity classes -->
 				<value>com.dim.cls.model.StaffMember</value> <!-- Entity classes -->
 				<value>com.dim.cls.model.Institute</value> <!-- Entity classes -->
 				<value>com.dim.cls.model.LoginProfile</value> <!-- Entity classes -->

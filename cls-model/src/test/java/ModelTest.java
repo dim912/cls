@@ -24,16 +24,19 @@ public class ModelTest {
 	@Test
 	public void test() {
 		
+		/*
 		org.hibernate.SessionFactory sessionFactory = mock(SessionFactory.class);
 		org.hibernate.Session session = mock(Session.class);
 		when(sessionFactory.getCurrentSession()).thenReturn(session);
+		*/
 		
 		//opeaning a session from sessionFactory(one per application) object
-		//Session session = HibernateUtil.getSessionFactory().openSession(); //session has a connection internally. Session knows how to do ORM mappins
-		//Session session2 = HibernateUtil.getSessionFactory().openSession(); //session has a connection internally. Session knows how to do ORM mappins
-		//Session session3 = HibernateUtil.getSessionFactory().openSession(); //session has a connection internally. Session knows how to do ORM mappins
+		Session session = HibernateUtil.getSessionFactory().openSession(); //session has a connection internally. Session knows how to do ORM mappins
+		Session session2 = HibernateUtil.getSessionFactory().openSession(); //session has a connection internally. Session knows how to do ORM mappins
+		Session session3 = HibernateUtil.getSessionFactory().openSession(); //session has a connection internally. Session knows how to do ORM mappins
 
-		//AbstractPerson p = new AbstractPerson();
+		//AbstractPerson p = new AbstractPerson() ;
+		
 		//p.setFirstName("Dimuthu");
 		//session.beginTransaction();
 		//session.save(p);

@@ -5,8 +5,8 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-  	<module>cls-model</module>
   	<module>cls-util</module>
+  	<module>cls-model</module>
   	<module>cls-service-api</module>
   	<module>cls-service-impl</module>
   	<module>cls-ear</module>

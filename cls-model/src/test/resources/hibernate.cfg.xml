@@ -5,7 +5,7 @@
 <hibernate-configuration>
  <session-factory>
   <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
-  <property name="hibernate.connection.url">jdbc:oracle:thin:@192.168.1.100:1522:orcl</property>
+  <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1522:orcl</property>
   <property name="hibernate.connection.username">appdbuser</property>
   <property name="hibernate.connection.password">oracle</property>
   <!-- what kind of langue to use to talk to databse. sql type depending on the database. Below value is a class name in hibernate jars -->
@@ -28,7 +28,8 @@ org.hibernate.cache.ehcache.EhCacheRegionFactory
   <property name="hibernate.hbm2ddl.auto">create</property>
   
   <!-- list of Entity model classes(Not embedable classes). Hibernte looks for annotions in those clases-->
-  <mapping class="com.dim.cls.model.AbstractPerson"></mapping>
+  <mapping class="com.dim.cls.model.abstracts.AbstractPerson"></mapping>
+  <mapping class="com.dim.cls.model.Institute"></mapping>
   <!--  
   <mapping resource="com/mkyong/user/DBUser.hbm.xml"></mapping>
   -->

@@ -78,11 +78,13 @@ public abstract class AbstractPerson {
 	private List<Address> address;
 
 	
+	/*
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "U_RELATIONS", joinColumns = { 
 	@JoinColumn(name = "ID_INTERNAL", nullable = false) }, inverseJoinColumns
 	= { @JoinColumn(name = "ID_INTERNAL_R", nullable = false) }) 
 	private AbstractPerson[] relations;
+	*/
 	
 	@ElementCollection
 	private List<AcadamicQualification> acadamicQualifications;
