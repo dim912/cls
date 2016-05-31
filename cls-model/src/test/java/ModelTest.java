@@ -1,23 +1,7 @@
-import static org.junit.Assert.*;
-import java.util.Date;
-
-import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Example;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projection;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.metamodel.source.annotations.xml.mocker.MockHelper;
 import org.junit.Test;
 
 import com.dim.cls.model.HibernateUtil;
-import com.dim.cls.model.StaffMember;
-import com.dim.cls.model.abstracts.AbstractPerson;
-
-import static org.mockito.Mockito.*;
 
 public class ModelTest {
 	
