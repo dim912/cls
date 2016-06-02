@@ -2,19 +2,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-   <artifactId>cls-ear</artifactId>
-   <packaging>ear</packaging>
-   <parent>
-      <groupId>com.dim.cls</groupId>
-      <artifactId>cls</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-   </parent>
-   <name>ear assembly</name>
-   <dependencies>
-      <dependency>
-         <groupId>com.dim.cls</groupId>
-         <artifactId>cls-portal</artifactId>
-         <version>0.0.1-SNAPSHOT</version>
+	<artifactId>cls-ear</artifactId>
+	<packaging>ear</packaging>
+	<parent>
+		<groupId>com.dim.cls</groupId>
+		<artifactId>cls</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<name>ear assembly</name>
+	<dependencies>
+		<dependency>
+			<groupId>com.dim.cls</groupId>
+			<artifactId>cls-portal</artifactId>
          <type>war</type>
       </dependency>
    </dependencies>
@@ -22,10 +21,7 @@
       <plugins>
          <plugin>
             <artifactId>maven-ear-plugin</artifactId>
-
          </plugin>
-         
-
         <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
             <version>2.0.2</version>
@@ -34,7 +30,6 @@
                 <target>1.7</target>
             </configuration>
         </plugin>
-
       </plugins>
    </build>
 </project>
