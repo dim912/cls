@@ -1,23 +1,33 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.dim.cls</groupId>
-    <artifactId>cls</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>cls-service-impl</artifactId>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.dim.cls</groupId>
+		<artifactId>cls</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>cls-service-impl</artifactId>
 
-  <dependencies>
-  	<dependency>
-  		<groupId>com.dim.cls</groupId>
-  <artifactId>cls-service-api</artifactId>
-  	</dependency>
-  	
-  	
-  	<dependency>
+	<dependencies>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>com.dim.cls</groupId>
+			<artifactId>cls-service-api</artifactId>
+		</dependency>
+
+
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-	    </dependency>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
@@ -26,22 +36,20 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
-	
-			<dependency>
+
+		<dependency>
 			<groupId>com.dim.cls</groupId>
 			<artifactId>cls-dao-api</artifactId>
-		</dependency>	
-		
-			
-			<dependency>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>com.dim.cls</groupId>
 			<artifactId>cls-dao-impl</artifactId>
-		</dependency>	
-		
-		
-		
-		
-		
-		
-  </dependencies>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+
+	</dependencies>
 </project>

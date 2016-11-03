@@ -38,7 +38,7 @@
 		<property name="password" value="${db.password}" />
 	</bean>
 	
-	<!-- Configure Hibernate 4 LocalSessionFacotry -->
+	<!-- Configure Hibernate 4 LocalSessionFacotry 
 <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource">
 			<ref bean="dataSource" />
@@ -51,21 +51,58 @@
 				<prop key="hibernate.hbm2ddl.auto">create</prop>
 			</props>
 		</property>
+		
 		<property name="annotatedClasses">
 			<list>
-				<value>com.dim.cls.model.abstracts.AbstractPerson</value> <!-- Entity classes -->
-				<value>com.dim.cls.model.StaffMember</value> <!-- Entity classes -->
-				<value>com.dim.cls.model.Institute</value> <!-- Entity classes -->
-				<value>com.dim.cls.model.LoginProfile</value> <!-- Entity classes -->
+				<value>com.dim.cls.model.abstracts.AbstractPerson</value> 
+				<value>com.dim.cls.model.StaffMember</value> 
+				<value>com.dim.cls.model.Institute</value> 
+				<value>com.dim.cls.model.LoginProfile</value>
+				<value>com.dim.cls.model.abstracts.AbstractDomainEntry</value> 
+				<value>com.dim.cls.model.util.SysFlag</value> 
 			</list>
 		</property>
+		 
 	</bean>
+	-->
 	
-	<!-- bean with transactionManager will be used by @Trasactional(value=?????) -->
+	<bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+      <property name="dataSource" ref="dataSource" />
+      <property name="packagesToScan">
+      <array>
+            <value>com.dim.cls.model.abstracts.AbstractPerson</value> 
+			<value>com.dim.cls.model</value> 
+         </array>
+     </property>  
+      <property name="jpaVendorAdapter">
+         <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+      </property>
+      <property name="jpaProperties">
+         	<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.default_schema">appdbuser</prop>
+				<!--  
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				-->
+			</props>
+      </property>
+   </bean>
+	
+		
+	<!-- bean with transactionManager will be used by @Trasactional(value=?????) 
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	-->
+	
+	 <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+      <property name="entityManagerFactory" ref="myEmf" />
+   </bean>
+	
+	
+	
 	<tx:annotation-driven />
 	<!-- "tx:annotation-driven" configuration and create AOP interceptor for all which are annotated(done by springTransactionAnnotatedParser) 
 		which is used by trasaction interceptor. Then when beans are accessed advice is triggred and trasaction is started before 

@@ -7,14 +7,18 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
+@XmlRootElement
 public class LoginProfile {
 
 	@Column
 	@Id
 	private String uerName;
 	@Column
+	@XmlTransient
 	private String password;
 
 	@Column(name = "DOB", columnDefinition = "DATE")
@@ -22,7 +26,7 @@ public class LoginProfile {
 	private Date lastLoginTime;
 
 	public String getUerName() {
-		System.out.println("adsf");
+		System.out.println("adsff");
 		return uerName;
 	}
 

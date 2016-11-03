@@ -8,6 +8,7 @@ import com.dim.cls.model.abstracts.AbstractPerson;
 public interface UserService  {
 	
 	 public void saveOrUpdate(StaffMember staffMember);  
-	 public List<AbstractPerson> findAll();  
+	 public List<StaffMember> findAll();
+	 public StaffMember findById(long id);
 
 }

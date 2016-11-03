@@ -31,6 +31,7 @@
 		<jstl.v>1.2</jstl.v>
 		<servlet.api.v>2.5</servlet.api.v>
 		<jsp.api.v>2.1</jsp.api.v>
+		<mokito.v>1.9.5</mokito.v>
 		<hibernate.javax.persistence.v>1.0.1.Final</hibernate.javax.persistence.v>
 		<hibernate.commons.v>3.2.0.Final</hibernate.commons.v>
 		<cls.model.v>0.0.1-SNAPSHOT</cls.model.v>
@@ -39,11 +40,18 @@
 		<cls.dao.api.v>0.0.1-SNAPSHOT</cls.dao.api.v>
 		<cls.dao.impl.v>0.0.1-SNAPSHOT</cls.dao.impl.v>
 		<cls.portal.v>0.0.1-SNAPSHOT</cls.portal.v>
+
 	</properties>
 
 	<!-- child poms will inherit the version from below -->
 	<dependencyManagement>
 		<dependencies>
+			<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>${mokito.v}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.dim.cls</groupId>
 				<artifactId>cls-model</artifactId>
