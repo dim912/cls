@@ -1,0 +1,237 @@
+Converting Spring/JSP to Spring/Angularjs
+-----------------------------------
+
+This is moving from 
+	server side rendering springMvc/JSP,Struts,Velocity -> to client side rendering view using Angular JS.
+
+-> this is a paradigam shift.
+
+similaritis => All resides in same war, and and index file is a jsp.
+
+here spring application -> provides the RESTful web service
+	- this may serve, website, mobile client app.
+	
+-> if there are business centric calculations -> they should not be done at fron end but at back end.
+
+-> front end back end communicates through JSON
+
+Do not use traditional HTML POST method to send data to backend
+insted , encapsulate from submission to JSON objects, which is sent to backend via
+AngularJS HTTP post method call
+
+validations
+-----------
+can use Angularjs front end validators or own custom validators
+same data should be validated at server side also.
+
+
+Front end
+----------
+webclient
+APplephone
+AndroidApp
+WebApp
+
+Comunicate over json
+
+backend
+-------
+Spring RESTful webservices
+
+
+webapp -> resource grouping methods
+-----------------------------------
+
+feature-grouping
+
+
+java script base package managers
+----------------------------------
+=> npm, bower
+
+bower => make sure to download and keep laterst version of dependencices.
+
+
+In JSP => server side java object to HTML data binding happens
+In Angular => client side javascript object to HTML data binding happens
+
+
+=> In Spring => spring custom form tags are used to to devlop forms
+
+=> Angularjs also provides a similar type of converience in datamapping it is java scriipt objects to 	html.
+
+
+--------------------------------------------------------------------------------
+
+ANGULAR 2
+-----------
+
+-> An application consist of
+		a. Componets
+		b. Directives
+		c. Routers
+		4. Services
+		
+Component
+---------
+	=> encapsulate template, data and the behaviour of a view
+	=> every componets has at least one component which is called as 'root component'
+	=> components can contain otehr componets
+	=> a componet has template html markup, data, behavior
+	=> Advantage is any larger applicaiton can be devided into smaller managable componets
+			=> App, NavBar, Courses, SideBar, Rating ..etc => these are view components
+			
+
+Componet is a typescript class
+------------------------------
+
+export class RatingComponent {
+
+	//properties -> holds the data of view
+	avgRating : number
+	
+	//methods -> implemnt behaviour of view
+	setRating(value){
+		
+	}
+}
+
+=> these compoments are completly decoupled from the DOM.
+
+jquery way -> get a referece to the DOM element -> to modify a value of a lable. or handle its events.
+--------------------------------------------
+$("#title").text = "Hellow world"
+
+=> but this is not the way of Angulr 2.
+
+
+insted Angular 2 use BINDING
+----------------------------
+
+{}
+title = "hello"
+
+DOM
+<h1>Hello</h1>
+
+
+in the view -> properties and method of comonets are bind
+if there is a change in property => value at the bound DOM elements will also refresh automatially.
+
+So -> No need to get refernce in order to update it.
+
+To handle an event at DOM -> we bind the event to an method in component
+-then when the event happn ->  coresponding method is called.
+
+Why the components are decupled from DOM -> then componets are unit testable, without having DOM.
+
+Componets needs to talk to back end APIs to refresh views / save data
+--------------------------------------------
+
+=> for this, any logic not related to view is handed over to service.
+
+SERVICE
+-------
+
+Service is a class which encapsulate any non user interface related logic like http call, business roles et
+
+ROUTER
+------
+purly responsible for natigation. WHen user navigate from one page to there(change of urls) -> ROUTER decide which componets
+to shown to the user
+
+DIRECCTIVE
+---------
+
+similar to componets DOM is used to modify/extend/control the DOM. Use only for exising DOM elements.
+
+Ex: automatically growing an text box when it is in focus
+
+<input type="text" autoGrow>
+
+anular 2 comes with common classes. (Ex: add remove dom elements, adding styles, repeting)
+
+
+Setting ENV.
+
+INStall node.js
+-> there is a tool as npm package manager -> which is for dependency managemnt
+
+install typescript globally in computer
+npm install -g typescript
+
+Proper way to create an angular app
+-----------------------------------
+
+npm install -g angular-cli
+npm new project_name
+ng serve
+
+
+JAVA SCRIPT
+
+function sayHello(name) {
+  var text = 'Hello ' + name;
+  var sayAlert = function() { alert(text); }
+  sayAlert(); => call say alert function and send the result out.
+}
+
+-> functions can be writetn infront of functions and can labeld as variables.
+those inner functions are in the scope of outer function.
+
+CLOSURE -> reterning a referece to an innter function when outerfunction exits
+----------------------------------------------------------------------------------
+
+closure is the local varibel of a fucntion.
+
+function sayHello2(name) {
+  var text = 'Hello ' + name; // local variable
+  var sayAlert = function() { alert(text); }
+  return sayAlert;
+}
+var say2 = sayHello2('Jane'); -> a fucntion is assined on say2 now.
+
+say2(); - that function assigned on say2 is called.
+=> here the varibale 'name' of sayHello2 function is still visible when say2() is called.
+
+alert(say2.toString()); // show code. because, localvarible of sayHello2 is kept in a c
+
+<!-- {{yourName}} -> this is called interpolation -->
+
+tsconfig.json => file is used by Typescript compiler to convert typescript to javasccript
+typing.json => used by identify typescript definition files in angular application. these are used by
+typescript compiler to identify syntax
+
+=> in angular all  building blocks-> components, service, directives , routers -> 
+are PLAN typescript classes
+=> So APIs are much simple and clearner in Angular 2
+
+naming courses.component.ts
+
+=> in Typesript each file is considred as a module. In each module one or more things are expored.
+ like class, function, variable.
+ 
+=> In angular 2 -> compoents has a template but directives does not
+
+
+Angular 2 supports two way binding
+-----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

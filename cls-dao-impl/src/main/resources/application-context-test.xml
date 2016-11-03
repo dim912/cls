@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	  http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+       
+	<!-- dao -->
+	<context:component-scan base-package="com.dim.cls.util.dao.impl" />	 
+
+
+	<!-- configroot, environment are JVM parameters -->
+	<bean id="envconfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">		
+		<property name="locations">
+    		<list>
+    			<value>file:${configroot}/${environment}/config/clsapp_${environment}.properties</value>
+    		</list>
+    	</property>
+	</bean>
+			  
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="ApplicationResources" />
+		<property name="useCodeAsDefaultMessage" value="true" />
+	</bean>
+		
+	<!-- configure data source -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@${db.ip}:${db.port}:${db.sid}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean>
+	
+	<!-- Configure Hibernate 4 LocalSessionFacotry -->
+
+
+<bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+      <property name="dataSource" ref="dataSource" />
+      <property name="packagesToScan">
+      <array>
+            
+				<value>com.dim.cls.model.util</value> 
+         </array>
+     </property>  
+      <property name="jpaVendorAdapter">
+         <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+      </property>
+      <property name="jpaProperties">
+         	<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.default_schema">appdbuser</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+			</props>
+      </property>
+   </bean>
+
+
+	 <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+      <property name="entityManagerFactory" ref="myEmf" />
+   </bean>
+	
+
+
+	<tx:annotation-driven />
+	<!-- "tx:annotation-driven" configuration and create AOP interceptor for all which are annotated(done by springTransactionAnnotatedParser) 
+		which is used by trasaction interceptor. Then when beans are accessed advice is triggred and trasaction is started before 
+		target method is executed and comitted after execution -->
+	<!-- <bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor"> <property 
+		name="transactionManager" ref="transactionManager" /> <property name="transactionAttributes"> <props> <prop key="save">PROPAGATION_REQUIRED</prop> 
+		</props> </property> </bean> -->
+</beans>
