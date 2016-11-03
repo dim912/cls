@@ -1,6 +1,7 @@
 package dim.com.cls.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,23 @@ public class userController {
 
 	@Autowired
 	private UserService userService;
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public ModelAndView Test(final RedirectAttributes redirectAttributes, Model model) {
+		
+		
+		List<StaffMember> users = userService.findAll();
+		
+		
+		for(int i=0;i< users.size() ; i++){
+			System.out.println(users.get(i).getFirstName());
+		}
+		
+		
+		return null;
+	}
+
+
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	// @Path in CXF, RequestMethod.GET => @GET
@@ -69,6 +87,9 @@ public class userController {
 		// System.out.println(staffMember.getFirstName());
 
 		System.out.println("10");
+		
+		System.out.println(staffMember.getFirstName());
+		
 		if (result.hasErrors()) {
 			// populateDefaultModel(model);
 			System.out.println(result.getErrorCount());

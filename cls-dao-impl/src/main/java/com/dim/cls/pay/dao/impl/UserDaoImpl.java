@@ -1021,32 +1021,200 @@ query2.setCacheble(true);
 
 
   
+Understanding JPA
+------------------
+
+1) JP - API
+2) JPQL
+3) JPA Criteria API
+4) ORM meta data
+
+
+// No Entity will be associated directly with AbstractDomainEntry, and no object of it will be created.
+//But only  more specific objects will be associated with each other
+//So AbstractDomainEntry is not an Entity, but a @MappedSuperclass.
+// clild class objects like Person, Course, Registration etc.
+//
+// @MappedSuperclass also has a persistance state and mapping info. But are not entites.
+//@MappedSuperclass => these are not mapped as entiteis by the JPA provider.
+//@MappedSuperclass => can not be used in JPA queries.
+//@MappedSuperclass => can not be target in entity repationships
+//@MappedSuperclass => do not have any table => allways goes in table per class fasion.
+ 
+ Non Entity Super Class
+ ----------------------
+ 
+ => state of nonEntity supper => is non persistant.
+ => can not be used in Query or EntityManager operations
+ => Any Anotation in nonEntitySupperClass are ignored
+ 
+ 
+ Managing Entities ( By EntityManager)
+ --------------------------------------
+ 
+ javax.persistance.EntityManager instances
+ => Each EM instance is associated with a Persistancy Context.
+=> PC => is a set of managed entity instances, in a data store.
+=> EM  interface define the methods to interact with PC.
+
+EM => create, remove, search by primary key, search by query the entities.
+
+ 
+ Container Managed Entity Managers
+ ---------------------------------
+ 
+ => EM's associated persistancy context is propergated by the container to 
+ application components that use the EM instance within a single JTA transaction.
+ 
+ => NOrmally JTA trasacction involves calls accross the application
+ => But this JTA trasaction need to access a single persistancy context, normally.
+ 
+=> This is achived at => injecting EntityManager to the varias parts of the application => and using
+ the "javax.persistence.PersistenceContext" annotation.
+=> here same persistancy context is propagated to every component within a single transaction.
+=> and Entity manager references of same persistance unit, mappes to this same persistance unit within the
+=> transaction.
+
+=> so by propergating the same persistancy context => application components do not need to pass
+refereces of entity manager instances, within the same trasaction.
+
+=> container manages the life cycle of container managed EMs.
+
+=> To obtain a EntityManager within the application, => use,
+
+@PersistenceContext
+EntityManager em;
+
+Application Managed Entity Managers
+------------------------------------
+
+=> PC is not managed by the container and the life cycle of EM is managed by the application.
+
+=> Here, each EM creates its own isolated persistancy context, explicitly.
+
+Em em = javax.persistence.EntityManagerFactory -> createEntityManager method.
+
+=> EntityManagerFactory can also be injected into the application.
+
+@PersistenceUnit
+EntityManagerFactory emf;
+
+EntityManager em = emf.createEntityManager();
+
+=> the trasaction should be handled manually.
+
+EntityManagerFactory emf;
+EntityManager em;
+@Resource
+UserTransaction utx;
+...
+em = emf.createEntityManager();
+try {
+  utx.begin();
+  em.persist(SomeEntity);
+  em.merge(AnotherEntity);
+  em.remove(ThirdEntity);
+  utx.commit();
+} catch (Exception e) {
+  utx.rollback();
+}
+
+
+Note : EntityManagers are not thread safe. But entity manager factories are thread safe.
+
+//search customer
+ * 
+ *     Customer cust = em.find(Customer.class, custID);
+
+
+//persisting => moving the entity to managed state
+ * ---------
+ 
+ a) calling persist method
+ b) calling persist method on a "cascade=PERSIST or cascade=ALL" object
+ 
+ 
+ => if the entity is detaced and now call persist will throw IllegalArgumentException.
+ => commit operation will fail.
+ 
+Remove
+------
+call remove method or, on cascade=REMOVE or cascade=ALL.
+
+Persistance Unit
+----------------
+
+1) define set of all entity classes managed by a entityManager instance in the application.
+2) defined in a persistance.xml file, in WEB-INF/classes/META-INF.
+
+Querying Entities
+-----------------
+
+JPQL
+----
+=> Type unsafe, => required casting results.
+
+
+Criteria API
+-----------
+=> type safe => No casting is needed.
+
+
+JPQL
+---
+
+=> query can be written by
+
+em.createQuery                       => used to create dynamic queries which are at business logic.
+
+public List findWithName(String name) {
+return em.createQuery(
+    "SELECT c FROM Customer c WHERE c.name LIKE :custName")
+    .setParameter("custName", name)
+    .setMaxResults(10)
+    .getResultList();
+}
+
+em.createNativeQuery methods.        => used to create static queries. which are meta data.
+
+@NamedQuery(
+    name="findAllCustomersWithName",
+    query="SELECT c FROM Customer c WHERE c.name LIKE :custName"
+)
+
+public EntityManager em;
+...
+customers = em.createNamedQuery("findAllCustomersWithName")
+    .setParameter("custName", "Smith")
+    .getResultList();
+    
+    
+Named parameters
+----------------
+
+public List findWithName(String name) {
+    return em.createQuery(
+        "SELECT c FROM Customer c WHERE c.name LIKE :custName")
+        .setParameter("custName", name)
+        .getResultList();
+}
+
+
+positional parameters
+---------------------
+
+public List findWithName(String name) {
+    return em.createQuery(
+        “SELECT c FROM Customer c WHERE c.name LIKE ?1”)
+        .setParameter(1, name)
+        .getResultList();
+}
+
+
+
 
 
   
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  * 
  * */
 
@@ -1091,15 +1259,19 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dim.cls.dao.abstracts.GenericHibernateDao;
 import com.dim.cls.model.Address;
 import com.dim.cls.model.HibernateUtil;
 import com.dim.cls.model.Identity;
 import com.dim.cls.model.StaffMember;
 import com.dim.cls.model.abstracts.AbstractPerson;
+import com.dim.cls.model.util.SysFlag;
 import com.dim.cls.pay.dao.api.UserDao;
+import com.dim.cls.util.SysFlagDao;
 
 @Repository
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl  extends GenericHibernateDao<StaffMember>  implements UserDao {
+	
 	
 	//Hibernate support below persistencey contexts (Moving entities between states)
     // 1. Hibernate Session => propritary to hibernate
@@ -1111,13 +1283,14 @@ public class UserDaoImpl implements UserDao {
 	// 3. detached => entity has a associated identifier => but not associated in PC now.
 	// 4 removed => entity has a associated identifier => but schedueld to remove from DB
 
-	@Autowired
-	private SessionFactory sessionfactory;
+	//@Autowired
+	//private SessionFactory sessionfactory;
 	
 	//@PersistenceContext(name="onePADB")   //this will do the autowire Just as @Autowire
 	//private EntityManager entityManager;
 
 	
+	/*
 	@Transactional(propagation = Propagation.MANDATORY) //the stack who calls this method should already have a transaction.
 	//if the below mehod is called outside a trasaction it gives an error because of Propagation.MANDATORY.
 	public void saveUser(StaffMember staffMember) {
@@ -1130,8 +1303,10 @@ public class UserDaoImpl implements UserDao {
 		//getCurrentSession is not valied without a valied trasaction. It gives the current session on which the current trasaction
 		//is handled
 	}
+	*/
 
-	public List<AbstractPerson> findAll() {
+	/*
+	public List<StaffMember> findAll() {
 		//@SuppressWarnings("unchecked")
 		List<AbstractPerson> userlist = sessionfactory.getCurrentSession().createCriteria(AbstractPerson.class).list();
 		//List<AbstractPerson> userlist = entityManager.createNativeQuery("select * from test", StaffMember.class).getResultList();
@@ -1139,8 +1314,9 @@ public class UserDaoImpl implements UserDao {
 		
 		return userlist;
 	}
+	*/
 	
-	
+	/*
 	public List<AbstractPerson> testMethod() {
 		//@SuppressWarnings("unchecked")
 		List<AbstractPerson> userlist = sessionfactory.getCurrentSession().createCriteria(AbstractPerson.class).list();
@@ -1151,17 +1327,16 @@ public class UserDaoImpl implements UserDao {
 		
 		return null;
 	}
-	
+	*/
 	
 	public List<AbstractPerson> testMethodCriteria() {
-
 		return null;
 	}
 	
 	@PostConstruct
-	public void init()
-	{
-		System.out.println("User Dao Bean is initialised");
+	public void init(){
+        super.setClazz(StaffMember.class);
+		System.out.println("User Dao Bean is initialisedd");
 	}
 
 	

@@ -16,28 +16,54 @@ import com.dim.cls.user.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
-	UserDao userDao ;
+	UserDao userDao;
 
-	@Transactional(propagation = Propagation.REQUIRED) //this is the default trasaction attribute. 
+	@Transactional(propagation = Propagation.REQUIRED) // this is the default
+														// trasaction attribute.
 
-	public List<AbstractPerson> findAll() {
+	public List<StaffMember> findAll() {
 		// TODO Auto-generated method stub
+		System.out.println(userDao);
 		return userDao.findAll();
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED) //this is the default trasaction attribute. 
-	//If there is no transaction is assosiated, then a new trasaction should be started at this point.
-	//If there is already a started transaction it should be used.
+	@Transactional(propagation = Propagation.REQUIRED) // this is the default
+														// trasaction attribute.
+	// If there is no transaction is assosiated, then a new trasaction should be
+	// started at this point.
+	// If there is already a started transaction it should be used.
 	public void saveOrUpdate(StaffMember staffMember) {
-		System.out.println("3");
 
-		userDao.saveUser(staffMember);
+		if (staffMember.isNew()) {
+			userDao.create(staffMember);
+		} else {
+			userDao.update(staffMember);
+		}
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED) 
+	public void delete(StaffMember staffMember) {
+		userDao.delete(staffMember);
 	}
 
 	@PostConstruct
-	public void init(){
+	public void init() {
 		System.out.println("UserService Bean is loaded");
 	}
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED) 
+	public StaffMember findById(long id) {
+		return userDao.findOne(id);
+	}
+
 }

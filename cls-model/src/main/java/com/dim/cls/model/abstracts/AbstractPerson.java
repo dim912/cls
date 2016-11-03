@@ -27,6 +27,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -41,14 +45,13 @@ import com.dim.cls.model.Identity;
 import com.dim.cls.util.GenderType;
 
 @Entity
-@Table(name = "U_USER") // set Table name.
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class AbstractPerson {
+@Table(name = "U_USER")
+//@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//Get the objects from filed. not from getter
+@XmlAccessorType(XmlAccessType.FIELD)
+public abstract class AbstractPerson extends AbstractDomainEntry{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID_INTERNAL")
-	private Long idInternal;
 
 	@Column(name = "FIRST_NAME")
 	private String firstName;
@@ -59,6 +62,7 @@ public abstract class AbstractPerson {
 	@Column(name = "SURNAME")
 	private String surName;
 
+	@XmlTransient
 	@ElementCollection
 	@CollectionTable(name = "U_IDENTITIES", joinColumns = @JoinColumn(name = "ID_INTERNAL"))
 	private List<Identity> identities;
@@ -73,6 +77,7 @@ public abstract class AbstractPerson {
 	@NotFound(action = NotFoundAction.IGNORE)
 	private GenderType gender;
 
+	@XmlTransient
 	@ElementCollection
 	@CollectionTable(name = "T_ADDRESS", joinColumns = @JoinColumn(name = "ID_INTERNAL"))
 	private List<Address> address;
@@ -86,13 +91,15 @@ public abstract class AbstractPerson {
 	private AbstractPerson[] relations;
 	*/
 	
-	@ElementCollection
-	private List<AcadamicQualification> acadamicQualifications;
+	//@ElementCollection(fetch=FetchType.EAGER)
+	//private List<AcadamicQualification> acadamicQualifications;
 
+	@XmlTransient
 	@ElementCollection
 	@CollectionTable(name = "T_CONTACT", joinColumns = @JoinColumn(name = "ID_INTERNAL"))
 	private List<ContactNumber> contactnumbers;
 
+	@XmlTransient
 	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinColumn
 	@JoinTable(name = "U_SUBORDINATES", joinColumns = {
@@ -100,20 +107,13 @@ public abstract class AbstractPerson {
 					@JoinColumn(name = "ID_INTERNAL_SUB", nullable = false) })
 	private Collection<AbstractPerson> subordinates;
 
+	@XmlTransient
 	@ManyToMany(fetch = FetchType.LAZY)
-	@Fetch(FetchMode.JOIN)
+	//@Fetch(FetchMode.JOIN)
 	@JoinTable(name = "U_EMERGENCY_CONTACT", joinColumns = {
 			@JoinColumn(name = "ID_INTERNAL", nullable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "ID_INTERNAL_EME", nullable = false) })
 	private List<AbstractPerson> emergencyContactPersons;
-
-	Long getIdInternal() {
-		return idInternal;
-	}
-
-	public void setIdInternal(Long idInternal) {
-		this.idInternal = idInternal;
-	}
 
 	public String getFirstName() {
 		return firstName;
@@ -163,6 +163,7 @@ public abstract class AbstractPerson {
 		this.address = address;
 	}
 
+	/*
 	public List<AcadamicQualification> getAcadamicQualifications() {
 		return acadamicQualifications;
 	}
@@ -170,7 +171,7 @@ public abstract class AbstractPerson {
 	public void setAcadamicQualifications(List<AcadamicQualification> acadamicQualifications) {
 		this.acadamicQualifications = acadamicQualifications;
 	}
-
+	 */
 	public List<ContactNumber> getContactnumbers() {
 		return contactnumbers;
 	}
@@ -187,10 +188,6 @@ public abstract class AbstractPerson {
 		this.emergencyContactPersons = emergencyContactPersons;
 	}
 
-	public boolean isNew() { // return true if the user is new
-		return (this.idInternal == null);
-	}
-
 	public GenderType getGender() {
 		return gender;
 	}
@@ -199,4 +196,5 @@ public abstract class AbstractPerson {
 		this.gender = gender;
 	}
 
+	
 }

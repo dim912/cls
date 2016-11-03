@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import com.dim.cls.model.abstracts.AbstractCharge;
 import com.dim.cls.util.ChargeTypes;
 
-@Entity
+//@Entity
 public class Charge extends AbstractCharge  {
 
 

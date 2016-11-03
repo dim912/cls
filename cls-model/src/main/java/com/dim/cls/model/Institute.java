@@ -15,7 +15,7 @@ public class Institute {
 
 	@Id
     @GeneratedValue
-	private Long IdInternal;
+	private Long idInternal;
 	
 	@Column
 	private String instituteName;

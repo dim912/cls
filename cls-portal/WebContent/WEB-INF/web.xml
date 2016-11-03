@@ -6,7 +6,10 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
+            <!--  
             /WEB-INF/context/webApplicationContext.xml
+            -->
+            file:${configroot}/${environment}/context/webApplicationContext.xml
         </param-value>
 	</context-param>
 	<listener>
