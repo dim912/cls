@@ -1,0 +1,191 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@2.15.8
+3 info using node@v4.4.7
+4 verbose readDependencies loading dependencies from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\package.json
+5 warn package.json webapp@1.0.0 No description
+6 warn package.json webapp@1.0.0 No repository field.
+7 warn package.json webapp@1.0.0 No README data
+8 verbose install where, deps [ 'D:\\clsWorkspace_working\\cls-jax-rs\\src\\main\\webapp',
+8 verbose install   [ 'angular2',
+8 verbose install     'systemjs',
+8 verbose install     'es6-promise',
+8 verbose install     'es6-shim',
+8 verbose install     'reflect-metadata',
+8 verbose install     'rxjs',
+8 verbose install     'zone.js',
+8 verbose install     'concurrently',
+8 verbose install     'lite-server',
+8 verbose install     'typescript' ] ]
+9 verbose install where, peers [ 'D:\\clsWorkspace_working\\cls-jax-rs\\src\\main\\webapp',
+9 verbose install   [] ]
+10 verbose installManyTop reading for lifecycle D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\package.json
+11 info preinstall webapp@1.0.0
+12 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\angular2\package.json
+13 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\angular2-in-memory-web-api\package.json
+14 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\bootstrap\package.json
+15 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\concurrently\package.json
+16 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\core-js\package.json
+17 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\es6-promise\package.json
+18 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\es6-shim\package.json
+19 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\lite-server\package.json
+20 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\reflect-metadata\package.json
+21 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\rxjs\package.json
+22 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\systemjs\package.json
+23 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\typescript\package.json
+24 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\zone.js\package.json
+25 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\common\package.json
+26 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\compiler\package.json
+27 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\core\package.json
+28 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\forms\package.json
+29 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\http\package.json
+30 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\platform-browser\package.json
+31 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\platform-browser-dynamic\package.json
+32 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\router\package.json
+33 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\router-deprecated\package.json
+34 verbose installManyTop reading scoped package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\upgrade\package.json
+35 info package.json core-js@2.4.1 No README data
+36 info package.json @angular/common@2.0.0-rc.5 No description
+37 info package.json @angular/common@2.0.0-rc.5 No README data
+38 info package.json @angular/core@2.0.0-rc.5 No description
+39 info package.json @angular/core@2.0.0-rc.5 No README data
+40 info package.json @angular/compiler@2.0.0-rc.5 No description
+41 info package.json @angular/compiler@2.0.0-rc.5 No README data
+42 info package.json @angular/platform-browser@2.0.0-rc.5 No description
+43 info package.json @angular/platform-browser@2.0.0-rc.5 No README data
+44 info package.json @angular/platform-browser-dynamic@2.0.0-rc.5 No description
+45 info package.json @angular/platform-browser-dynamic@2.0.0-rc.5 No README data
+46 info package.json @angular/http@2.0.0-rc.5 No description
+47 info package.json @angular/http@2.0.0-rc.5 No README data
+48 info package.json @angular/forms@0.3.0 No description
+49 info package.json @angular/forms@0.3.0 No README data
+50 info package.json @angular/router@3.0.0-rc.1 No description
+51 info package.json @angular/router@3.0.0-rc.1 No README data
+52 info package.json @angular/router-deprecated@2.0.0-rc.2 No description
+53 info package.json @angular/router-deprecated@2.0.0-rc.2 No README data
+54 info package.json @angular/upgrade@2.0.0-rc.5 No description
+55 info package.json @angular/upgrade@2.0.0-rc.5 No README data
+56 verbose readDependencies loading dependencies from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\package.json
+57 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\angular2\package.json
+58 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\angular2-in-memory-web-api\package.json
+59 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\bootstrap\package.json
+60 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\concurrently\package.json
+61 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\core-js\package.json
+62 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\es6-promise\package.json
+63 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\es6-shim\package.json
+64 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\lite-server\package.json
+65 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\reflect-metadata\package.json
+66 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\rxjs\package.json
+67 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\systemjs\package.json
+68 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\typescript\package.json
+69 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\zone.js\package.json
+70 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\.bin\tsc\package.json
+71 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\.bin\tsc.cmd\package.json
+72 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\.bin\tsserver\package.json
+73 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\.bin\tsserver.cmd\package.json
+74 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\common\package.json
+75 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\compiler\package.json
+76 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\core\package.json
+77 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\forms\package.json
+78 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\http\package.json
+79 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\platform-browser\package.json
+80 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\platform-browser-dynamic\package.json
+81 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\router\package.json
+82 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\router-deprecated\package.json
+83 verbose targetResolver reading package data from D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\@angular\upgrade\package.json
+84 verbose already installed skipping es6-shim@^0.33.3 D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+85 verbose already installed skipping reflect-metadata@0.1.2 D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+86 verbose already installed skipping rxjs@5.0.0-beta.2 D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+87 verbose already installed skipping zone.js@0.5.15 D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+88 verbose already installed skipping concurrently@^2.0.0 D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+89 verbose already installed skipping lite-server@^2.1.0 D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+90 verbose already installed skipping typescript@^1.7.5 D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+91 verbose already installed skipping angular2@2.0.0-beta.7 D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+92 verbose already installed skipping systemjs@0.19.22 D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+93 verbose already installed skipping es6-promise@^3.0.2 D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+94 silly install resolved []
+95 info build D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+96 info linkStuff webapp@1.0.0
+97 silly linkStuff webapp@1.0.0 has D:\clsWorkspace_working\cls-jax-rs\src\main as its parent node_modules
+98 verbose linkBins webapp@1.0.0
+99 verbose linkMans webapp@1.0.0
+100 verbose rebuildBundles webapp@1.0.0
+101 verbose rebuildBundles [ '.bin',
+101 verbose rebuildBundles   '@angular',
+101 verbose rebuildBundles   'angular2',
+101 verbose rebuildBundles   'angular2-in-memory-web-api',
+101 verbose rebuildBundles   'bootstrap',
+101 verbose rebuildBundles   'concurrently',
+101 verbose rebuildBundles   'core-js',
+101 verbose rebuildBundles   'es6-promise',
+101 verbose rebuildBundles   'es6-shim',
+101 verbose rebuildBundles   'lite-server',
+101 verbose rebuildBundles   'reflect-metadata',
+101 verbose rebuildBundles   'rxjs',
+101 verbose rebuildBundles   'systemjs',
+101 verbose rebuildBundles   'typescript',
+101 verbose rebuildBundles   'zone.js' ]
+102 verbose rebuild bundle D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\angular2-in-memory-web-api
+103 info build D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\angular2-in-memory-web-api
+104 info preinstall angular2-in-memory-web-api@0.0.15
+105 info linkStuff angular2-in-memory-web-api@0.0.15
+106 silly linkStuff angular2-in-memory-web-api@0.0.15 has D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules as its parent node_modules
+107 verbose linkBins angular2-in-memory-web-api@0.0.15
+108 verbose linkMans angular2-in-memory-web-api@0.0.15
+109 verbose rebuildBundles angular2-in-memory-web-api@0.0.15
+110 info install angular2-in-memory-web-api@0.0.15
+111 info postinstall angular2-in-memory-web-api@0.0.15
+112 verbose rebuild bundle D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\bootstrap
+113 info build D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\bootstrap
+114 info preinstall bootstrap@3.3.7
+115 info linkStuff bootstrap@3.3.7
+116 silly linkStuff bootstrap@3.3.7 has D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules as its parent node_modules
+117 verbose linkBins bootstrap@3.3.7
+118 verbose linkMans bootstrap@3.3.7
+119 verbose rebuildBundles bootstrap@3.3.7
+120 info install bootstrap@3.3.7
+121 info postinstall bootstrap@3.3.7
+122 verbose rebuild bundle D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\core-js
+123 info build D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\core-js
+124 info preinstall core-js@2.4.1
+125 info linkStuff core-js@2.4.1
+126 silly linkStuff core-js@2.4.1 has D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules as its parent node_modules
+127 verbose linkBins core-js@2.4.1
+128 verbose linkMans core-js@2.4.1
+129 verbose rebuildBundles core-js@2.4.1
+130 info install core-js@2.4.1
+131 info postinstall core-js@2.4.1
+132 info install webapp@1.0.0
+133 info postinstall webapp@1.0.0
+134 verbose unsafe-perm in lifecycle true
+135 info prepublish webapp@1.0.0
+136 verbose validateInstall loading D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\package.json for validation
+137 warn unmet dependency D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\lite-server\node_modules\browser-sync\node_modules\socket.io\node_modules\engine.io\node_modules\engine.io-parser requires has-binary@'0.1.6' but will load
+137 warn unmet dependency D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\lite-server\node_modules\browser-sync\node_modules\socket.io\node_modules\has-binary,
+137 warn unmet dependency which is version 0.1.7
+138 warn unmet dependency D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\lite-server\node_modules\browser-sync\node_modules\socket.io\node_modules\socket.io-client\node_modules\engine.io-client requires component-emitter@'1.1.2' but will load
+138 warn unmet dependency D:\clsWorkspace_working\cls-jax-rs\src\main\webapp\node_modules\lite-server\node_modules\browser-sync\node_modules\socket.io\node_modules\socket.io-client\node_modules\component-emitter,
+138 warn unmet dependency which is version 1.2.0
+139 verbose stack Error: The package reflect-metadata@0.1.2 does not satisfy its siblings' peerDependencies requirements!
+139 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:125:32
+139 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:268:7
+139 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:142:5
+139 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+139 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+139 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+139 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+139 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+139 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+139 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+140 verbose cwd D:\clsWorkspace_working\cls-jax-rs\src\main\webapp
+141 error Windows_NT 6.1.7601
+142 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+143 error node v4.4.7
+144 error npm  v2.15.8
+145 error code EPEERINVALID
+146 error peerinvalid The package reflect-metadata@0.1.2 does not satisfy its siblings' peerDependencies requirements!
+146 error peerinvalid Peer angular2@2.0.0-beta.7 wants reflect-metadata@0.1.2
+146 error peerinvalid Peer angular2-in-memory-web-api@0.0.15 wants reflect-metadata@^0.1.3
+147 verbose exit [ 1, true ]

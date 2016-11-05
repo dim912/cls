@@ -1,0 +1,12 @@
+declaration=false
+eclipse.preferences.version=1
+mapRoot=
+module=default
+noImplicitAny=false
+noResolve=false
+removeComments=false
+source=src/main/webapp/app
+sourceMap=true
+target=src/main/webapp/app
+targetRelativePathBasedOnSource=false
+targetVersion=ES5

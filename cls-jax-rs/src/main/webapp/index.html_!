@@ -1,0 +1,74 @@
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>cls-app-angular 2</title>
+
+    <!-- 1. Load libraries -->
+  <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+    <script src="systemjs.config.js"></script>
+
+    <!-- 2. Configure SystemJS -->
+    <script>
+/*
+      //System is universal dynamic module loader
+      //which loads ES6 modules, AMD, CommonJS and global scripts in a web browser or NodeJS
+      System.config({
+          //traspiler could be Traceur, Babel or TypeScript
+          //thse are java script written in some other format. (Not compiling but traspiling = convering)
+          transpiler: 'typescript', 
+          app : 'dist_js',
+          //passing options for transpiler
+          typescriptOptions: { emitDecoratorMetadata: true }, 
+          //folder and extention to be used when loading packages. But packegs are not loaded here.
+          packages: {'app': {defaultExtension: 'ts'}} 
+        });
+
+
+*/
+
+      System.import('app').catch(function(err){ console.error(err); });
+
+         </script>
+
+    <!-- 3. Bootstrap -->
+    <script>
+      //then syntax . method.then(X,Y) => of method1 call is success method X is called. Else mehotd Y is called. 
+      
+        // if angular2/platform/browser is successfully imported, then it is assign to ng
+        //and then load src/hello_world. If it is successful call bootstrap function of 
+        //angular2/platform/browser passing src.HelloWorld class.
+        
+        /*
+        System.import('angular2/platform/browser').then(
+          function(ng){
+            System.import('app/app.component').then(
+             function(src) {
+                 // the src.HelloWorld calls is passed to the bootstrap method of platform/browser
+                 // Here HelloWorld class is the root Component
+                 ng.bootstrap(src.AppComponent);
+               }  
+               );
+          }
+          );
+          */
+
+            System.import('app')
+            .catch(function(err){ console.error(err); });
+
+
+
+        </script>
+
+  </head>
+
+    <!-- 4. Display the application -->
+  <body>
+    <cls-app>Loading...</cls-app>
+  </body>
+  
+  </html>

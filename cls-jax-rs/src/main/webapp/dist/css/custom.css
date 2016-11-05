@@ -1,0 +1,4 @@
+.must:before {
+	content: " * ";
+	color: red;
+}
