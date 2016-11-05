@@ -1,0 +1,45 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<display-name>Archetype Created Web Application</display-name>
+
+	<!-- context loader listner to load spring application context
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			 /WEB-INF/context/webApplicationContext.xml 
+			file:${configroot}/${environment}/context/webApplicationContext.xml
+		</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+ -->
+
+<!-- 	<servlet>
+		<servlet-name>Jersey Web Application</servlet-name>
+
+		for Jersey without Spring (No webapplicationcontext is loaded) 
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		Jersey with Spring. webapplciationContext is loaded by this
+		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+
+		<init-param>
+
+			no spring <param-name>jersey.config.server.provider.packages</param-name>
+			spring
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			jersey will lookup this package for resources
+			<param-value>com.dim.cls.rs.resource</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Jersey Web Application</servlet-name>
+		<url-pattern>/webapi/*</url-pattern>
+	</servlet-mapping> -->
+
+</web-app>

@@ -1,0 +1,202 @@
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+
+	<!-- Angular component routing base url -->
+	<base href="/">
+	
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Bootstrap 3, from LayoutIt!</title>
+
+	<meta name="description" content="Source code generated using layoutit.com">
+	<meta name="author" content="LayoutIt!">
+
+	<link href="/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/dist/css/style.css" rel="stylesheet">
+	<link href="/dist/css/custom.css" rel="stylesheet">
+
+	 <script src="node_modules/core-js/client/shim.min.js"></script>
+	    <script src="node_modules/zone.js/dist/zone.js"></script>
+	    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+	    <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+	   <script src="systemjs.config.js"></script>
+
+	    <!-- 2. Configure SystemJS -->
+	    <script>
+	/*
+	      //System is universal dynamic module loader
+	      //which loads ES6 modules, AMD, CommonJS and global scripts in a web browser or NodeJS
+	      System.config({
+	          //traspiler could be Traceur, Babel or TypeScript
+	          //thse are java script written in some other format. (Not compiling but traspiling = convering)
+	          transpiler: 'typescript', 
+	          app : 'dist_js',
+	          //passing options for transpiler
+	          typescriptOptions: { emitDecoratorMetadata: true }, 
+	          //folder and extention to be used when loading packages. But packegs are not loaded here.
+	          packages: {'app': {defaultExtension: 'ts'}} 
+	        });
+
+
+	*/
+
+
+    
+      System.import('app').catch(function(err){ console.log(err); });
+    </script>
+
+	          
+
+	        
+
+	    <!-- 3. Bootstrap -->
+	    <script>
+	      //then syntax . method.then(X,Y) => of method1 call is success method X is called. Else mehotd Y is called. 
+	      
+	        // if angular2/platform/browser is successfully imported, then it is assign to ng
+	        //and then load src/hello_world. If it is successful call bootstrap function of 
+	        //angular2/platform/browser passing src.HelloWorld class.
+	        
+	        /*
+	        System.import('angular2/platform/browser').then(
+	          function(ng){
+	            System.import('app/app.component').then(
+	             function(src) {
+	                 // the src.HelloWorld calls is passed to the bootstrap method of platform/browser
+	                 // Here HelloWorld class is the root Component
+	                 ng.bootstrap(src.AppComponent);
+	               }  
+	               );
+	          }
+	          );
+	          */
+
+	            System.import('app')
+	            .catch(function(err){ console.error(err); });
+
+
+
+	        </script>
+
+
+
+
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-12"></div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-1"></div>
+								<div class="col-md-10">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="row">
+												<div class="col-md-12"></div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													<nav class="navbar navbar-default" role="navigation">
+
+
+														<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+															<ul class="nav navbar-nav">
+
+																<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">UseR<strong class="caret"></strong></a>
+																	<ul class="dropdown-menu">
+																		<li><a href="#">search</a></li>
+																		<li class="divider"></li>
+																		<li><a href="##">create</a></li>
+
+																	</ul></li>
+
+																<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Pay<strong class="caret"></strong></a>
+																	<ul class="dropdown-menu">
+																		<li><a href="#">Collect</a></li>
+																		<li class="divider"></li>
+																		<li><a href="#">pay back</a></li>
+
+																	</ul></li>
+
+															</ul>
+
+															<ul class="nav navbar-nav navbar-right">
+																<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Dimuthu Senanayaka<strong class="caret"></strong></a>
+																	<ul class="dropdown-menu">
+																		<li><a href="#">logout</a></li>
+																	</ul></li>
+															</ul>
+														</div>
+
+													</nav>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+
+													<!--start body-->
+													
+													<cls-app>Loading...</cls-app>
+
+													<!--end body-->
+												</div>
+
+
+											</div>
+											<div class="row">
+												<div class="col-md-12"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-1"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<!--
+		<script src="/dist/js/custom.js"></script>
+		-->
+	<!-- popup message section	 -->	
+
+			<div id="dummyModal" role="dialog" class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<!-- 
+						<div class="modal-header">
+							<button type="button" data-dismiss="modal" class="close">&times;</button>
+							<h4 class="modal-title">Error</h4>
+						</div>
+						 -->
+						<div class="modal-body">
+							<p>${msg}</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" data-dismiss="modal" class="btn btn-${css}">OK</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<!-- messages from application -->
+
+	</body>
+	</html>

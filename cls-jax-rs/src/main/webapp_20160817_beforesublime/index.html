@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Angular 2 QuickStart</title>
+
+    <!-- 1. Load libraries -->
+    <script src="https://rawgithub.com/systemjs/systemjs/0.19.6/dist/system.js"></script>
+    <script src="https://code.angularjs.org/tools/typescript.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.0/angular2-polyfills.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.0/Rx.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.0/angular2.dev.js"></script>
+
+    <!-- 2. Configure SystemJS -->
+    <script>
+    //System is universal dynamic module loader
+    //which loads ES6 modules, AMD, CommonJS and global scripts in a web browser or NodeJS
+      System.config({
+      	//traspiler could be Traceur, Babel or TypeScript
+      	//thse are java script written in some other format. (Not compiling but traspiling = convering)
+        transpiler: 'typescript', 
+        //passing options for transpiler
+        typescriptOptions: { emitDecoratorMetadata: true }, 
+        //folder and extention to be used when loading packages. But packegs are not loaded here.
+        packages: {'src': {defaultExtension: 'ts'}} 
+      });
+    </script>
+
+    <!-- 3. Bootstrap -->
+    <script>
+    //then syntax . method.then(X,Y) => of method1 call is success method X is called. Else mehotd Y is called. 
+      
+      // if angular2/platform/browser is successfully imported, then it is assign to ng
+      //and then load src/hello_world. If it is successful call bootstrap function of 
+      //angular2/platform/browser passing src.HelloWorld class.
+      
+      System.import('angular2/platform/browser').then(
+	      	function(ng){
+	        	System.import('app/hello_world').then(
+	        		function(src) {
+	        		 // the src.HelloWorld calls is passed to the bootstrap method of platform/browser
+	        		 // Here HelloWorld class is the root Component
+	          			ng.bootstrap(src.HelloWorld);
+	          			
+	        		}	
+	        	);
+      		}
+      );
+    </script>
+
+  </head>
+
+  <!-- 4. Display the application -->
+  <body>
+    <hello-world>Loading...</hello-world>
+  </body>
+
+</html>

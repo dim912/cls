@@ -1,0 +1,31 @@
+import {Directive,ElementRef,Renderer} from '@angular/core';
+
+@Directive({
+	selector : '[autoGrow]',
+	host : {
+		'(focus)': 'onFocus()',
+		'(blur)': 'onBlur()'
+	}
+})
+export class AutoGrowDirective {
+
+	_el : ElementRef ;
+	_ren : Renderer;
+
+	constructor(el:ElementRef, ren : Renderer){
+		console.log('eeeee');
+		this._el = el;
+		this._ren = ren;
+	}
+
+	onFocus(){
+		console.log("called");
+		this._ren.setElementStyle(this._el , 'width','200px');
+	}
+
+	onBlur(){
+		this._ren.setElementStyle(this._el , 'width','120px');
+
+	}
+
+}
