@@ -20,7 +20,7 @@ public abstract class GenericHibernateDao<T> implements AbstractDao<T>{
 	private Class<T> clazz;
 
 	@PersistenceContext(name="myEmf")
-	EntityManager entityManagery;
+	public EntityManager entityManagery;
 	//SessionFactory sessionFactory;
 
 	public final void setClazz(Class<T> clazzToSet) {

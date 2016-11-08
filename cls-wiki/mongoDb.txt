@@ -1,0 +1,65 @@
+
+#create new database
+use TestDB
+switched to db TestDB
+
+Table -> Collections
+Row -> Documents(key,value mappings) - Flexible schema - in side one collection, there are documnets with different key,value pairs.
+Columns -> (key, values)
+Relational mapping -> inner documnets
+
+-> combine objects into one schema, only if they use together
+-> do joins at write, not read
+
+-> Example Mongo schema
+{
+   _id: POST_ID
+   title: TITLE_OF_POST, 
+   description: POST_DESCRIPTION,
+   by: POST_BY,
+   url: URL_OF_POST,
+   tags: [TAG1, TAG2, TAG3],
+   likes: TOTAL_LIKES, 
+   comments: [	
+      {
+         user:'COMMENT_BY',
+         message: TEXT,
+         dateCreated: DATE_TIME,
+         like: LIKES 
+      },
+      {
+         user:'COMMENT_BY',
+         message: TEXT,
+         dateCreated: DATE_TIME,
+         like: LIKES
+      }
+   ]
+}
+
+
+#to check current db
+db
+
+#
+show dbs
+
+#insert
+
+>db.movie.insert({"name":"tutorials point"})
+
+db.createCollection("mycollection")
+
+#check db statu
+db.status();
+
+#show collecitons
+>show collections
+
+#insert a documnet to a collection
+db.movie.insert({"t":"asdf"});
+
+#drop a collection
+db.mycollection.drop()
+
+#query
+db.movie.find()

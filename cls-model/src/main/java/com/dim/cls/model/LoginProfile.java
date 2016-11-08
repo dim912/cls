@@ -2,14 +2,28 @@ package com.dim.cls.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+@NamedQueries({
+	@NamedQuery(
+	name = "findByUserName",
+	query = "from LoginProfile lp where lp.uerName = :userName AND lp.password = :password"
+	)
+})
 @Entity
 @XmlRootElement
 public class LoginProfile {
@@ -25,6 +39,12 @@ public class LoginProfile {
 	@Temporal(TemporalType.TIMESTAMP) // save only the date
 	private Date lastLoginTime;
 
+	@Transient
+	private boolean isLoggedIn = false;
+	
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	private StaffMember staffMember;
+	
 	public String getUerName() {
 		System.out.println("adsff");
 		return uerName;
@@ -49,5 +69,23 @@ public class LoginProfile {
 	public void setLastLoginTime(Date lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
+
+	public boolean isLoggedIn() {
+		return isLoggedIn;
+	}
+
+	public void setLoggedIn(boolean isLoggedIn) {
+		this.isLoggedIn = isLoggedIn;
+	}
+
+	public StaffMember getStaffMember() {
+		return staffMember;
+	}
+
+	public void setStaffMember(StaffMember staffMember) {
+		this.staffMember = staffMember;
+	}
+	
+	
 
 }

@@ -29,7 +29,8 @@ public class StaffMember extends AbstractPerson{
 	@NotFound(action = NotFoundAction.IGNORE)
 	private JobType gender;
 	*/
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	
+	@OneToOne(mappedBy ="staffMember") //LoginProfile table side is the non owing side of the relationship. So to find the relationship, goes to opposite side table and its related column.
 	private LoginProfile loginProfile;
 	/*
 	public String getJobDescription() {

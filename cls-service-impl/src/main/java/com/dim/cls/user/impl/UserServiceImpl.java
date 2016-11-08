@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dim.cls.model.LoginProfile;
 import com.dim.cls.model.StaffMember;
 import com.dim.cls.model.abstracts.AbstractPerson;
 import com.dim.cls.pay.dao.api.UserDao;
@@ -65,5 +66,22 @@ public class UserServiceImpl implements UserService {
 	public StaffMember findById(long id) {
 		return userDao.findOne(id);
 	}
+	
+	public StaffMember logIn(LoginProfile loginProfile) {
+		
+		LoginProfile staffMember = userDao.findByLoginProfile(loginProfile);
+		
+		if(staffMember==null) return null;
+		else{
+			return loginProfile.getStaffMember();
+		}	
+	}
+
+	public boolean logOut(LoginProfile loginProfile) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
 
 }

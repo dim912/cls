@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.dim.cls.model.StaffMember;
 import com.dim.cls.user.UserService;
 
+
+//Spring MVC controllers can be converted to REST APIS, by using jackson2(throuh message converters)
 @Controller
 @RequestMapping("/users")
 public class userController {

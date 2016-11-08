@@ -1242,6 +1242,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -1263,6 +1264,7 @@ import com.dim.cls.dao.abstracts.GenericHibernateDao;
 import com.dim.cls.model.Address;
 import com.dim.cls.model.HibernateUtil;
 import com.dim.cls.model.Identity;
+import com.dim.cls.model.LoginProfile;
 import com.dim.cls.model.StaffMember;
 import com.dim.cls.model.abstracts.AbstractPerson;
 import com.dim.cls.model.util.SysFlag;
@@ -1271,7 +1273,6 @@ import com.dim.cls.util.SysFlagDao;
 
 @Repository
 public class UserDaoImpl  extends GenericHibernateDao<StaffMember>  implements UserDao {
-	
 	
 	//Hibernate support below persistencey contexts (Moving entities between states)
     // 1. Hibernate Session => propritary to hibernate
@@ -1339,5 +1340,13 @@ public class UserDaoImpl  extends GenericHibernateDao<StaffMember>  implements U
 		System.out.println("User Dao Bean is initialisedd");
 	}
 
-	
+	@Override
+	public LoginProfile findByLoginProfile(LoginProfile loginProfile) {
+		
+		 TypedQuery<LoginProfile> query = super.entityManagery.createNamedQuery("findByUserName", LoginProfile.class);
+		 query.setParameter("name", loginProfile.getUerName());
+		 query.setParameter("password", loginProfile.getPassword());
+
+		 return query.getSingleResult();
+	}
 }

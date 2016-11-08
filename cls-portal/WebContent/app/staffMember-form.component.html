@@ -1,0 +1,117 @@
+<legend>Register Staff</legend>
+<form cssClass="form-horizontal" method="post" action="test" (ngSubmit)="onSubmit(heroForm.value)" #staffMember="ngForm">
+   <fieldset>
+      <div class="col-md-6 column ui-sortable">
+         <div class="col-md-12">
+            <div class="form-group">
+               <label for="firstName" class="must">First Name</label>
+               <input id="firstName"  name="firstName" type="text" class="form-control"    required="required" [(ngModel)]="model.firstName" />
+            </div>
+         </div>
+         <div class="col-md-12">
+            <div class="form-group"> 
+               <label for="secondName">Second Name</label> 
+               <input id="secondName"  name="secondName" type="text" class="form-control" [(ngModel)]="model.secondName" />
+            </div>
+         </div>
+         <div class="col-md-12">
+            <div class="form-group">
+               <label for="surName" class="must">Surname</label> 
+               <input id="surName" name="surName" type="text" class="form-control" required="required" [(ngModel)]="model.surName" />
+            </div>
+         </div>
+         <div class="col-md-12">
+            <div class="form-group">
+               <label for="nic" class="must">NIC</label> 
+               <input id="nic"  name="nic" type="text" class="form-control" required="required" [(ngModel)]="model.nic" />
+               <!-- <hidden  value="NIC" /> -->
+            </div>
+         </div>
+         <div class="row" >
+            <div class="col-md-6 column ui-sortable">
+               <div class="col-md-12">
+                  <div class="form-group">
+                     <label for="dob" class="must">Date of Birth</label>           
+                     <input id="dob"  name="dob" type="date" class="form-control" required="required" [(ngModel)]="model.dob" />
+                  </div>
+               </div>
+            </div>
+            <!-- Multiple Radios -->
+            <div class="col-md-6 column ui-sortable">
+               <div class="form-group">
+                  <label class="col-md-4 control-label" for="radios">Gender</label>
+                  <div class="col-md-4">
+                     <div class="radio">
+                        <label for="radios-0">
+                           <input type="radio" name="radios" id="radios-0" value="1" checked="checked">
+                           Male
+                        </label>
+                     </div>
+                     <div class="radio">
+                        <label for="radios-1">
+                           <input type="radio" name="radios" id="radios-1" value="2">
+                           Female
+                        </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="col-md-6 column ui-sortable">
+         <div class="col-md-12">
+            <div class="form-group">
+               <label for="homeAddress" class="must">Home Address</label> 
+               <input id="homeAddress" name="homeAddress" type="text" class="form-control" required="required"  [(ngModel)]="model.homeAddress"/>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-6 column ui-sortable">
+               <div class="col-md-12">
+                  <div class="form-group">
+                     <label for="city">City</label> 
+                     <input id="city"  name="city" type="text" class="form-control" [(ngModel)]="model.city" />
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6 column ui-sortable">
+               <div class="col-md-12">
+                  <div class="form-group">
+                     <label for="town">Town</label> 
+                     <input id="town" name="town" type="text" class="form-control" [(ngModel)]="model.town" />
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-6 column ui-sortable">
+               <div class="col-md-12">
+                  <div class="form-group">
+                     <label for="homeTel">Home Telephone</label> 
+                     <input  id="homeTel"  name="homeTel" class="form-control"   [(ngModel)]="model.homeTel" />
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6 column ui-sortable">
+               <div class="col-md-12">
+                  <div class="form-group">
+                     <label for="mobileTel" class="must">Mobile</label>              
+                     <input  id="mobileTel" name="mobileTel" class="form-control" required="required" [(ngModel)]="model.mobileTel"/>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-12">
+            <div class="form-group">
+               <label for="textinput">Email </label><input id="email" name="email" type="email" class="form-control"  [(ngModel)]="model.email">
+            </div>
+         </div>
+         <div class="col-md-12">
+            <div class="form-group" >
+               <button (click)="helloClick()" id="singlebutton" name="singlebutton" class="btn btn-primary">Save User</button>
+            </div>
+         </div>
+      </div>
+   </fieldset>
+</form>
+<router-outlet></router-outlet>

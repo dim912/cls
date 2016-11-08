@@ -329,5 +329,7 @@ iptables-restore < /etc/sysconfig/iptables
 
 providing table space access for the user.
 
+#Default table space for a newly created user is USER
+
 sqlplus / as sysdba
 ALTER USER appdbuser quota 100M on USERS;

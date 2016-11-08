@@ -9,6 +9,9 @@ git commit InstallationInfo_20160116;
 git add links.txt
 git push
 
+//git delete all files which are already deleted
+git ls-files --deleted -z | xargs -0 git rm 
+
 
 list all the files tracked by Git
 git ls-tree -r master --name-only

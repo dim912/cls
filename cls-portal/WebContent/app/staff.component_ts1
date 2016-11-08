@@ -1,0 +1,36 @@
+import {Component} from '@angular/core';
+import {StaffService} from './staff.service';
+import {AutoGrowDirective} from './auto-grow.directive'
+//encapsulate data and logic behind
+@Component({
+    // Declare the tag name in index.html(host element) to where the component attaches
+    selector: 'staff',
+  
+    // Location of the template for this component
+    //templateUrl: 'src/hello_world.html',
+    template : `TEST STAFF {{name}}
+
+    <input type="text" autoGrow />
+    <ul>
+      <li *ngFor = "#contact of contacts">
+          {{contact}}
+       </li>
+    </ul>
+    `,
+    providers : [StaffService],
+    directives : [AutoGrowDirective]
+    //the html to be injected can be configured here
+    //template: 'this is'
+})
+export class Staff {
+    // Declaring the variable for binding with initial value
+    // yourName = 'dd'; typescript can auto detect type, if we do not declare.
+    name = 'Staff user 1';
+    contacts ;
+    constructor(staffService : StaffService){
+        
+        this.contacts = staffService.getContacts();
+    }
+}
+
+
