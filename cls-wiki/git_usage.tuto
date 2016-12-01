@@ -84,6 +84,17 @@ git checkout master
 --git clone -> get all from remote and checkout master as the working copy.
 --git pull -> get fetch + git merge(update the working copy)
 
+whitelisted gitignore file(dont commit all and commit only what is mentioned here)
+---------------------------------------------------------------------------------------
+# First, ignore everything
+*
+# Now, whitelist anything that's a directory
+!*/
+# And all the file types you're interested in.
+!*.tuto
+!*.gitignore
+
+
 
 
 
