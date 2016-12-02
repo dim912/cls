@@ -1,4 +1,23 @@
-extract tar.gz
----------------
+#extract tar.gz
 
 tar -zxvf {file.tar.gz}
+
+#cut
+
+#by diliminator
+cut -d':' -f1 /etc/passwd
+
+#column
+cut -c9-16
+
+
+#list names of files insie a tar.gz
+tar -tvf file.tar
+
+#extracting only selected files/folder from a tar.gz
+tar -xvz --file=20161120.tar.gz 20161120/ME/ME1*;
+
+
+-x = --extract
+-v = --verbose
+-z = --gzip
