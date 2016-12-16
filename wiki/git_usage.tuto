@@ -95,7 +95,19 @@ whitelisted gitignore file(dont commit all and commit only what is mentioned her
 !*.gitignore
 
 
+comparing two branches in remotes
+---------------------------------
 
+git diff origin/master origin/dev
+------------------------------------
 
+list only file names
+--------------------
+git diff --name-only origin/master origin/dev
 
+git cloning a branch
+---------------------
+git clone -b dev https://git.equinix.com/equinix/GPP.git
+
+a
 
