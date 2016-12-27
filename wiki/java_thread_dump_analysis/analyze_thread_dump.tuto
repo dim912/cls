@@ -1,0 +1,201 @@
+Thread dead lock occurs -> when threads use shared resources(objects)
+Ex : log writting : Lock of the log object should be obtained before writing the log.
+
+Thread Contention
+-----------------
+one thread wating for a lock/monitor of an object which is taken by another lock.
+
+Dead lock(special state of thread contention) Example
+-----------------
+Resource Objects A,B,C
+Thread T1,T2,T3
+
+T1 holds Lock A(LA) and waiting for LB.
+T2 holds LB and waiting for LC.
+T3 holds LC and waiting for LC.
+
+Thread Status
+-------------
+New        -> created but not yet started.
+Runnable   -> started(may be in blocked-waiting for a lock, waiting - wait or join or park methods, time_waiting - waiting with a time limit status) 
+Terminated -> stoped
+
+Thread Types
+------------
+1) Daemon threads -> back ground thread -> live until  main() mehtod thread(non deamon) is alive
+	Ex: garbage collection, JMX
+2) Non Deamon
+
+Note : Main method theread is called as => VM thread in HotSpot VM
+
+Getting Thread Dump
+--------------------
+-> thread dump is only a snapshot. Not a history.
+
+-------
+JSTACK
+-------
+delivered with JDK 1.6 and later.
+
+jps -v ; -- gives currently running java processors
+
+jstack -f PID ; --gives thread dump of current PID.
+
+ 
+jVisualVM
+---------
+GUI tool.
+
+Linux
+-----
+--get java process ID
+ps - ef | grep java
+
+--get the thread dump
+kill –SIGQUIT(3)
+
+
+Analyze Thread Dump
+-------------------
+
+Thread Name : 
+
+Java.lang.Thread  -> Thread-(Number)
+java.util.concurrent.ThreadFactory  -> named pool-(number)-thread-(number)
+Priority -> prio
+Thread ID(unique) -> tid 
+Thread status - runnable, blocked, waiting, time_waiting,
+call stack
+
+Thread Dump Patterns
+---------------------
+
+Unable to Obtain a lock -> slow doewn the thred which is waiting for the object
+--------------------------------------------------------------------------------
+
+
+BLOCKED_TEST pool-1-thread-1    java.lang.Thread.State: RUNNABLE
+locked <0x0000000780a000b0> (a com.nbp.theplatform.threaddump.ThreadBlockedState)
+
+
+BLOCKED_TEST pool-1-thread-2    java.lang.Thread.State: BLOCKED (on object monitor
+-waiting to lock <0x0000000780a000b0> (a com.nbp.theplatform.threaddump.ThreadBlockedState)
+ 
+BLOCKED_TEST pool-1-thread-3    java.lang.Thread.State: BLOCKED (on object monitor
+- waiting to lock <0x0000000780a000b0> (a com.nbp.theplatform.threaddump.ThreadBlockedState)
+
+
+
+Dead Lock(will not change status until thread discurd its threads)
+--------------------------------------------------------------------
+
+DEADLOCK_TEST-1   java.lang.Thread.State: BLOCKED (on object monitor)
+- waiting to lock <0x00000007d58f5e60> (a com.nbp.theplatform.threaddump.ThreadDeadLockState$Monitor)
+- locked <0x00000007d58f5e48> (a com.nbp.theplatform.threaddump.ThreadDeadLockState$Monitor)
+
+				
+DEADLOCK_TEST-2   java.lang.Thread.State: BLOCKED (on object monitor)
+- waiting to lock <0x00000007d58f5e78> (a com.nbp.theplatform.threaddump.ThreadDeadLockState$Monitor)
+- locked <0x00000007d58f5e60> (a com.nbp.theplatform.threaddump.ThreadDeadLockState$Monitor)
+
+
+DEADLOCK_TEST-3   java.lang.Thread.State: BLOCKED (on object monitor)
+- waiting to lock <0x00000007d58f5e48> (a com.nbp.theplatform.threaddump.ThreadDeadLockState$Monitor)
+- locked <0x00000007d58f5e78> (a com.nbp.theplatform.threaddump.ThreadDeadLockState$Monitor)
+
+
+Contineous waiting -> need to take thread dumps with some interval and compair
+-------------------------------------------------------------------------------
+
+"socketReadThread" prio=6 tid=0x0000000006a0d800 nid=0x1b40 runnable [0x00000000089ef000] java.lang.Thread.State: RUNNABLE
+
+- locked <0x00000007d78a2230> (a java.io.InputStreamReader)
+
+
+When Waiting - wait infinitly to receive a message frm Queue
+-------------------------------------------------------------
+
+"IoWaitThread" prio=6 tid=0x0000000007334800 nid=0x2b3c waiting on condition [0x000000000893f000] java.lang.Thread.State: WAITING (parking)
+- parking to wait for  <0x00000007d5c45850> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+
+
+Un necessary Thread Piling Up
+------------------------------
+
+=> Monitor the 	thread organization process and termination conditions.
+
+t1 - 5 threads
+t2 - 5 + 2 threads
+t3 - 5 + 2 threads + 2 threads
+
+Solving Problems
+----------------
+
+1) CPU usage is high
+----------------------
+
+check which process takes the CPU most
+
+ps -C java -O pid,lwp,time,stime,cpu
+
+-O => some required field + default fileds.
+
+lwp(Light Waight Process)
+
+    PID         LWP          STIME                  TIME        %CPU
+10029               -         Dec07          00:02:02           99.5
+         -       10039        Dec07          00:00:00              0.1
+         -       10040        Dec07          00:00:00           95.5
+
+convert the LWP to hexaDecimal and serch the thread whose nid is this hex value.
+
+2) Performance is low
+----------------------
+
+take the thread time seval time and find BLOCKED threads -> then get lock object info, which make the thread waiting. check how has the lock now ?
+
+usual problems
+----------------
+
+Inadaquate DBMS confiurations - DBCP => may be less number of connections in the pool. thread go to blocked state.
+abnorma DBMS connections -> connections wait until timeout.
+
+
+Good Practize
+-------------
+Name threads.
+
+public Thread(Runnable target, String name);
+
+
+Using MBeans to get ThreadInfo
+------------------------------
+
+ThreadMXBean mxBean = ManagementFactory.getThreadMXBean();
+long[] threadIds = mxBean.getAllThreadIds();
+ThreadInfo[] threadInfos =
+                mxBean.getThreadInfo(threadIds);
+for (ThreadInfo threadInfo : threadInfos) {
+  System.out.println(
+      threadInfo.getThreadName());
+  System.out.println(
+      threadInfo.getBlockedCount());
+  System.out.println(
+      threadInfo.getBlockedTime());
+  System.out.println(
+      threadInfo.getWaitedCount());
+  System.out.println(
+      threadInfo.getWaitedTime());
+}
+
+=> this allows to get number of time(sec, min etc) that threads were wating.
+
+
+
+
+
+
+
+
+		 
+

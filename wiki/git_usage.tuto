@@ -66,9 +66,50 @@ git pull does a git fetch followed by a git merge.
 If local changes are not needed and everything should be reseted to remote master
 ----------------------------------------------------------------------------------
 
-  
 git fetch  #this is to fetch the remote changes to refs/remotes/<remote>/ directory.
 git reset  #hard origin/master
 
 
+how to make source control only for a folder -> (meaning working copy is only a folder)
+---------------------------------------------------------------------------------------
+
+git init
+git config --global user.name dim912
+git config --global user.email dim912@gmail.com
+git config core.sparsecheckout true
+git remote add origin https://bitbucket.org/clsTeam/cls
+echo cls-wiki/* >> .git/info/sparse-checkout
+git fetch
+git checkout master
+
+--git fetch -> get all from remote direcotory but do not check out any branch
+--git clone -> get all from remote and checkout master as the working copy.
+--git pull -> get fetch + git merge(update the working copy)
+
+whitelisted gitignore file(dont commit all and commit only what is mentioned here)
+---------------------------------------------------------------------------------------
+# First, ignore everything
+*
+# Now, whitelist anything that's a directory
+!*/
+# And all the file types you're interested in.
+!*.tuto
+!*.gitignore
+
+
+comparing two branches in remotes
+---------------------------------
+
+git diff origin/master origin/dev
+------------------------------------
+
+list only file names
+--------------------
+git diff --name-only origin/master origin/dev
+
+git cloning a branch
+---------------------
+git clone -b dev https://git.equinix.com/equinix/GPP.git
+
+a
 
