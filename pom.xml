@@ -132,6 +132,7 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
 				<version>${hibernate.validator.v}</version>
+					
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>

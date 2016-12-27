@@ -10,7 +10,7 @@ import org.springframework.ui.ModelMap;
 
 
 @Controller
-@RequestMapping("/hello")
+@RequestMapping("hello")
 public class HelloController{
  
    @RequestMapping(method = RequestMethod.GET)

@@ -36,7 +36,9 @@ git push
 git change url
 git remote set-url origin https://dim912@bitbucket.org/clsTeam/cls.git
 
-
+get the remote url that local repository is pointed to
+-------------------------------------------------------
+git ls-remote --get-url
 
 Maven installing a dependancy in local repo by hand
 
