@@ -136,3 +136,5 @@ add new remote repo
 git remote set-url --add origin https://dim912@bitbucket.org/clsTeam/cls.git
 git push origin master
 
+END
+
