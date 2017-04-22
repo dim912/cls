@@ -111,5 +111,28 @@ git cloning a branch
 ---------------------
 git clone -b dev https://git.equinix.com/equinix/GPP.git
 
-a
+Adding Two remote repositories
+-------------------------------
+
+mehtod 1: which allowes to pull and push from both repos
+
+Ex : for an project whose remote is a github repo => adding a bitbucket remote repo
+
+git remote rename origin github
+git remote add bitbucket https://dim912@bitbucket.org/clsTeam/cls.git
+
+git push github HEAD
+git push bitbucket HEAD
+
+
+git pull github your_branch
+git pull bitbucket your_branch
+
+
+method 2 : which only allows to push to both directories. but pull only from one
+
+add new remote repo
+
+git remote set-url --add origin https://dim912@bitbucket.org/clsTeam/cls.git
+git push origin master
 
