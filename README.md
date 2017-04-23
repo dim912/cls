@@ -3,9 +3,9 @@ A sample enterprise project which can be used to incubate new technology integra
 
 Currently below technologies are integrated
 
-Spring ( MVC, transactions)
-Hibernate
-JAX-RS(Jersey)
+Spring ( MVC, transactions) <br>
+Hibernate <br> 
+JAX-RS(Jersey) <br>
 Angular2 ( Typescript)
 
 
