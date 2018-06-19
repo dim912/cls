@@ -136,5 +136,10 @@ add new remote repo
 git remote set-url --add origin https://dim912@bitbucket.org/clsTeam/cls.git
 git push origin master
 
+Git different push/pull URLS (for forks)
+
+git remote set-url origin git://github.com/chief/global.git     (first everything to mother repository)
+git remote set-url --push origin git@github.com:User/forked.git  (then push to fork branch)
+
 END
 
